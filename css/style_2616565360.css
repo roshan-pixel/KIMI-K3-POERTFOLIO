@@ -1,0 +1,13 @@
+
+@font-face {
+  font-weight: 100;
+  font-family: 'custom_162065';
+  font-style: normal;
+  src: url("../fonts/font-6b38de63-34f2-49d7-9650-8bc88194d823.otf") format('opentype');
+}
+@font-face {
+  font-weight: 100;
+  font-family: 'custom_162065';
+  font-style: italic;
+  src: url("../fonts/font-586a08db-0b8b-4364-85ab-33db4fca56a5.otf") format('opentype');
+}

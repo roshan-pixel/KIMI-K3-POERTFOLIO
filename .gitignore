@@ -1,0 +1,13 @@
+# OS & IDE files
+.DS_Store
+Thumbs.db
+*.swp
+*.bak
+*.tmp
+.vscode/
+.idea/
+
+# Raw snapshots
+rendered_raw.html
+server_raw.html
+snapshot_live.html

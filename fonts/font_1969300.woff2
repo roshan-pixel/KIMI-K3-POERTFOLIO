@@ -1,0 +1,13 @@
+
+@font-face {
+  font-weight: 400;
+  font-family: 'custom_162069';
+  font-style: normal;
+  src: url("https://c-p.rmcdn.net/custom-fonts/font-83fbaf6f-efa7-4f57-9252-3db1c5b23886.otf") format('opentype');
+}
+@font-face {
+  font-weight: 700;
+  font-family: 'custom_162069';
+  font-style: normal;
+  src: url("https://c-p.rmcdn.net/custom-fonts/font-63b23b08-d27f-4b65-8a00-3f7dc2e3d3e0.otf") format('opentype');
+}
