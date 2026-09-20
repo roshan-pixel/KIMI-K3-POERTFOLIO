@@ -7,7 +7,14 @@ Thumbs.db
 .vscode/
 .idea/
 
-# Raw snapshots
+# Raw snapshots & local scratch scripts
 rendered_raw.html
 server_raw.html
 snapshot_live.html
+*.py
+*.ps1
+snippets/
+
+# Heavy media assets are loaded via fast CloudFront CDN
+assets/*
+!assets/poster.jpg
