@@ -444,25 +444,28 @@
        CLICK TO MEET BADGE: CONTINUOUS SCROLL PHYSICS & HOVER
        ======================================================= */
     .click-badge {
-      position: absolute;
-      bottom: 24px;
-      left: 24px;
+      position: fixed;
       width: 125px;
       cursor: pointer;
-      z-index: 100;
+      z-index: 9995;
       filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.75));
-      transform: translateY(var(--badge-y, 0px));
+      transform: none;
       transform-origin: center center;
-      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
-                  filter 0.25s ease;
-      will-change: transform, filter;
+      transition: filter 0.25s ease, opacity 0.3s ease, transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      will-change: transform, filter, opacity;
       user-select: none;
       -webkit-user-select: none;
     }
 
-    /* PLAYFUL HIGH-FASHION HOVER STATE (STRAIGHT ONLY) */
+    /* Dim gently when inside About section so it never obscures reading */
+    .click-badge.in-about {
+      opacity: 0.18;
+      pointer-events: none;
+    }
+
+    /* PLAYFUL HIGH-FASHION HOVER STATE (STRAIGHT ONLY - ZERO ROTATION) */
     .click-badge:hover {
-      transform: translateY(var(--badge-y, 0px)) scale(1.15) !important;
+      transform: scale(1.15) !important;
       filter: drop-shadow(0 0 30px rgba(255, 162, 192, 0.95)) drop-shadow(0 16px 32px rgba(0, 0, 0, 0.95)) !important;
     }
 
@@ -476,7 +479,7 @@
     }
 
     .click-badge:active {
-      transform: translateY(var(--badge-y, 0px)) scale(0.95) !important;
+      transform: scale(0.95) !important;
     }
 
     /* CULTURE TICKER */
@@ -1581,11 +1584,9 @@
       }
       .click-badge {
         width: 82px;
-        bottom: 12px;
-        left: 12px;
       }
       .click-badge:hover {
-        transform: translateY(var(--badge-y, 0px)) scale(1.12) !important;
+        transform: scale(1.1) !important;
       }
       
       /* Marquee ticker on mobile */
@@ -3652,25 +3653,83 @@
     }
 
     /* =======================================================
-       CLICK TO MEET BADGE: CONTINUOUS SCROLL PHYSICS
+       CLICK TO MEET BADGE: CONTINUOUS SCROLL PHYSICS (STRAIGHT ONLY)
        ======================================================= */
     function initClickBadgeScroll() {
       const badge = document.getElementById('clickBadge');
-      if (!badge) return;
+      const heroContainer = document.querySelector('.hero-media-container');
+      const aboutSection = document.getElementById('about');
+      if (!badge || !heroContainer) return;
+
+      // Ensure badge is a direct child of document.body so it is never clipped by ancestor overflow
+      if (badge.parentElement !== document.body) {
+        document.body.appendChild(badge);
+      }
 
       let isTicking = false;
 
       function updateBadge() {
         const scrollY = window.pageYOffset || document.documentElement.scrollTop;
-        
-        // Continuous, subtle parallax float on the poster (zero jumps, zero rotation)
-        const y = Math.min(scrollY * 0.16, 100);
-        badge.style.setProperty('--badge-y', `${y.toFixed(1)}px`);
+        const isMobile = window.innerWidth <= 768;
+        const pad = isMobile ? 12 : 24;
+        const badgeWidth = isMobile ? 82 : 125;
+        const badgeHeight = badgeWidth;
+        const floatBottom = isMobile ? 20 : 28;
+        const floatLeft = isMobile ? 16 : 28;
+
+        // Position of hero container in document coordinates
+        const heroRect = heroContainer.getBoundingClientRect();
+        const heroDocTop = heroRect.top + scrollY;
+        const heroDocLeft = heroRect.left + (window.pageXOffset || 0);
+        const heroHeight = heroContainer.offsetHeight;
+
+        // Viewport coordinates of badge at scrollY = 0 (anchored to hero poster)
+        const initialViewportTop = heroDocTop + heroHeight - pad - badgeHeight;
+        const initialViewportLeft = heroDocLeft + pad;
+
+        // Viewport coordinates of floating dock at bottom corner
+        const targetViewportLeft = floatLeft;
+        const targetViewportTop = window.innerHeight - floatBottom - badgeHeight;
+
+        // Smooth transition over initial scroll distance (continuous float down)
+        const transDist = isMobile ? 260 : 360;
+        const p = Math.min(Math.max(scrollY / transDist, 0), 1);
+        // Smooth ease-in-out S-curve
+        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+
+        const curLeft = initialViewportLeft + (targetViewportLeft - initialViewportLeft) * ease;
+        const curTop = initialViewportTop + (targetViewportTop - initialViewportTop) * ease;
+
+        badge.style.position = 'fixed';
+        badge.style.left = curLeft.toFixed(1) + 'px';
+        badge.style.top = curTop.toFixed(1) + 'px';
+        badge.style.bottom = 'auto';
+        badge.style.right = 'auto';
+        badge.style.width = badgeWidth + 'px';
+        badge.style.zIndex = '9995';
+        badge.style.transform = 'none';
+
+        // Dim gently when inside About section so it never obscures reading text
+        let inAbout = false;
+        if (aboutSection) {
+          const rect = aboutSection.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.6 && rect.bottom >= window.innerHeight * 0.15) {
+            inAbout = true;
+          }
+        }
+        badge.classList.toggle('in-about', inAbout);
 
         isTicking = false;
       }
 
       window.addEventListener('scroll', () => {
+        if (!isTicking) {
+          requestAnimationFrame(updateBadge);
+          isTicking = true;
+        }
+      }, { passive: true });
+
+      window.addEventListener('resize', () => {
         if (!isTicking) {
           requestAnimationFrame(updateBadge);
           isTicking = true;
