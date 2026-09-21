@@ -620,14 +620,142 @@
       font-size: 13px;
       color: var(--accent-rose);
       font-weight: 700;
+      gap: 8px;
+    }
+
+    .card-footer-action span:first-child {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: transform 0.25s ease, color 0.25s ease;
+    }
+
+    .featured-card:hover .card-footer-action span:first-child,
+    .project-card:hover .card-footer-action span:first-child {
+      color: #FFA2C0;
+      transform: translateX(3px);
     }
 
     .product-counter-pill {
       background: rgba(255, 255, 255, 0.06);
       color: var(--text-secondary);
-      padding: 3px 10px;
+      padding: 4px 10px;
       border-radius: 999px;
       font-size: 11px;
+      font-weight: 600;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      transition: all 0.25s ease;
+    }
+
+    .featured-card:hover .product-counter-pill,
+    .project-card:hover .product-counter-pill {
+      background: rgba(251, 113, 133, 0.12);
+      border-color: rgba(251, 113, 133, 0.35);
+      color: #fff;
+    }
+
+    /* Modal Product & Photo badge */
+    .photo-expand-badge {
+      position: absolute;
+      bottom: 10px;
+      right: 10px;
+      background: rgba(9, 9, 11, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      color: #faf8f5;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 3;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .product-photo-card:hover .photo-expand-badge {
+      background: var(--accent-rose);
+      color: #09090b;
+      border-color: var(--accent-rose);
+      transform: translateY(-2px);
+    }
+
+    /* =======================================================
+       COOL SCROLL ANIMATIONS: ONE FROM LEFT, ONE FROM RIGHT
+       ======================================================= */
+    section.featured-section,
+    section.work-section {
+      overflow-x: clip;
+    }
+
+    .featured-card,
+    .project-card {
+      will-change: transform, opacity;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  box-shadow 0.35s ease,
+                  border-color 0.35s ease;
+    }
+
+    .scroll-animate-left {
+      opacity: 0 !important;
+      transform: translateX(-48px) scale(0.96) translateZ(0) !important;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .scroll-animate-right {
+      opacity: 0 !important;
+      transform: translateX(48px) scale(0.96) translateZ(0) !important;
+      transition: transform 0.65s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    }
+
+    .scroll-animate-left.scroll-in,
+    .scroll-animate-right.scroll-in {
+      opacity: 1 !important;
+      transform: translateX(0) scale(1) translateZ(0) !important;
+    }
+
+    .featured-card.scroll-animate-left.scroll-in:hover,
+    .featured-card.scroll-animate-right.scroll-in:hover {
+      transform: translateY(-6px) !important;
+    }
+
+    .project-card.scroll-animate-left.scroll-in:hover,
+    .project-card.scroll-animate-right.scroll-in:hover {
+      transform: translateY(-5px) !important;
+    }
+
+    @media (max-width: 768px) {
+      .scroll-animate-left {
+        transform: translateX(-38px) scale(0.94) translateZ(0) !important;
+      }
+      .scroll-animate-right {
+        transform: translateX(38px) scale(0.94) translateZ(0) !important;
+      }
+      .featured-card.scroll-animate-left.scroll-in:hover,
+      .featured-card.scroll-animate-right.scroll-in:hover,
+      .project-card.scroll-animate-left.scroll-in:hover,
+      .project-card.scroll-animate-right.scroll-in:hover {
+        transform: translateY(-3px) !important;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .scroll-animate-left,
+      .scroll-animate-right {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
+      }
     }
 
     /* =======================================================
@@ -1749,7 +1877,7 @@
             <p class="featured-desc">What a time to be a dog! Bespoke dietary supplements and playful visual architecture for modern pets based out of Singapore.</p>
             <div class="card-footer-action">
               <span>Open Case Study & Products ↗</span>
-              <span class="product-counter-pill">21 Products & Photos</span>
+              <span class="product-counter-pill">↗ 21 Products & Photos</span>
             </div>
           </div>
         </div>
@@ -1765,7 +1893,7 @@
             <p class="featured-desc">Complete brand refresh, apparel line, and experimental display typography system for Heavy.</p>
             <div class="card-footer-action">
               <span>Open Case Study & Products ↗</span>
-              <span class="product-counter-pill">17 Products & Photos</span>
+              <span class="product-counter-pill">↗ 17 Products & Photos</span>
             </div>
           </div>
         </div>
@@ -1781,7 +1909,7 @@
             <p class="featured-desc">Editorial layout, sustainable packaging design, and identity for artisanal agave spirits.</p>
             <div class="card-footer-action">
               <span>Open Case Study & Products ↗</span>
-              <span class="product-counter-pill">19 Products & Photos</span>
+              <span class="product-counter-pill">↗ 19 Products & Photos</span>
             </div>
           </div>
         </div>
@@ -1797,7 +1925,7 @@
             <p class="featured-desc">Prebiotic botanical soda brand identity, vibrant can packaging, and global launch system.</p>
             <div class="card-footer-action">
               <span>Open Case Study & Products ↗</span>
-              <span class="product-counter-pill">30 Products & Photos</span>
+              <span class="product-counter-pill">↗ 30 Products & Photos</span>
             </div>
           </div>
         </div>
@@ -3369,6 +3497,55 @@
 ];
     let currentModalIndex = 0;
 
+    /* =======================================================
+       ALTERNATING SCROLL REVEAL (LEFT / RIGHT) ON MOBILE & DESKTOP
+       ======================================================= */
+    function initScrollAnimations() {
+      const featuredCards = Array.from(document.querySelectorAll('.featured-card'));
+      const projectCards = Array.from(document.querySelectorAll('.project-card'));
+
+      if (window._cardScrollObserver) {
+        window._cardScrollObserver.disconnect();
+      }
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('scroll-in');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.05,
+        rootMargin: '0px 0px -40px 0px'
+      });
+      window._cardScrollObserver = observer;
+
+      const setupCardGroup = (cards) => {
+        cards.forEach((card, idx) => {
+          card.classList.remove('scroll-animate-left', 'scroll-animate-right', 'scroll-in');
+          if (idx % 2 === 0) {
+            card.classList.add('scroll-animate-left');
+          } else {
+            card.classList.add('scroll-animate-right');
+          }
+
+          const rect = card.getBoundingClientRect();
+          const inView = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
+          if (inView) {
+            setTimeout(() => {
+              card.classList.add('scroll-in');
+            }, 60 + (idx % 4) * 80);
+          } else {
+            observer.observe(card);
+          }
+        });
+      };
+
+      setupCardGroup(featuredCards);
+      setupCardGroup(projectCards);
+    }
+
     function renderProjects(items = allProjects) {
       const grid = document.getElementById('projectsGrid');
       if (!grid) return;
@@ -3382,12 +3559,16 @@
             </div>
             <p class="card-desc">${p.tagline}</p>
             <div class="card-footer-action">
-              <span>View Products & Gallery ↗</span>
-              <span class="product-counter-pill">${p.productCount} Products</span>
+              <span>Open Case Study & Products ↗</span>
+              <span class="product-counter-pill">↗ ${p.productCount} Products & Photos</span>
             </div>
           </div>
         </div>
       `).join('');
+
+      if (typeof initScrollAnimations === 'function') {
+        initScrollAnimations();
+      }
     }
 
     function filterProjects(category) {
@@ -3636,9 +3817,19 @@
         imgEl.src = img;
         imgEl.onload = function() { onProductImageLoaded(this); };
         imgEl.onerror = function() { onProductImageLoaded(this); };
-        imgEl.onclick = function() { window.open(img, '_blank'); };
 
         card.appendChild(imgEl);
+
+        // Product & Photo badge with arrow
+        const badge = document.createElement('div');
+        badge.className = 'photo-expand-badge';
+        badge.innerHTML = `<span>↗ Product & Photo ${i + 1}</span>`;
+        card.appendChild(badge);
+
+        card.style.cursor = 'pointer';
+        card.title = `View Product & Photo ${i + 1} (${p.title})`;
+        card.onclick = function() { window.open(img, '_blank'); };
+
         fragment.appendChild(card);
       });
 
