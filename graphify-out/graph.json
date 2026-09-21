@@ -1,0 +1,1248 @@
+{
+  "directed": false,
+  "multigraph": false,
+  "graph": {},
+  "nodes": [
+    {
+      "label": "portfolio-engine.js",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L1",
+      "id": "js_portfolio_engine_js",
+      "community": 0,
+      "norm_label": "portfolio-engine.js"
+    },
+    {
+      "label": "initScrollAnimations()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L14",
+      "id": "js_portfolio_engine_initscrollanimations",
+      "community": 0,
+      "norm_label": "initscrollanimations()"
+    },
+    {
+      "label": "renderProjects()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L64",
+      "id": "js_portfolio_engine_renderprojects",
+      "community": 0,
+      "norm_label": "renderprojects()"
+    },
+    {
+      "label": "filterProjects()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L93",
+      "id": "js_portfolio_engine_filterprojects",
+      "community": 0,
+      "norm_label": "filterprojects()"
+    },
+    {
+      "label": "kimiScroller",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L110",
+      "id": "js_portfolio_engine_kimiscroller",
+      "community": 8,
+      "norm_label": "kimiscroller"
+    },
+    {
+      "label": "smoothScrollTo()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L131",
+      "id": "js_portfolio_engine_smoothscrollto",
+      "community": 0,
+      "norm_label": "smoothscrollto()"
+    },
+    {
+      "label": "initClickBadgeScroll()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L150",
+      "id": "js_portfolio_engine_initclickbadgescroll",
+      "community": 8,
+      "norm_label": "initclickbadgescroll()"
+    },
+    {
+      "label": "onProductImageLoaded()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L231",
+      "id": "js_portfolio_engine_onproductimageloaded",
+      "community": 8,
+      "norm_label": "onproductimageloaded()"
+    },
+    {
+      "label": "openProjectModal()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L249",
+      "id": "js_portfolio_engine_openprojectmodal",
+      "community": 0,
+      "norm_label": "openprojectmodal()"
+    },
+    {
+      "label": "displayProjectInModal()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L271",
+      "id": "js_portfolio_engine_displayprojectinmodal",
+      "community": 0,
+      "norm_label": "displayprojectinmodal()"
+    },
+    {
+      "label": "navigateProject()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L335",
+      "id": "js_portfolio_engine_navigateproject",
+      "community": 0,
+      "norm_label": "navigateproject()"
+    },
+    {
+      "label": "closeProjectModal()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L348",
+      "id": "js_portfolio_engine_closeprojectmodal",
+      "community": 0,
+      "norm_label": "closeprojectmodal()"
+    },
+    {
+      "label": "copyEmail()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L363",
+      "id": "js_portfolio_engine_copyemail",
+      "community": 0,
+      "norm_label": "copyemail()"
+    },
+    {
+      "label": "handleFormSubmit()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L370",
+      "id": "js_portfolio_engine_handleformsubmit",
+      "community": 0,
+      "norm_label": "handleformsubmit()"
+    },
+    {
+      "label": "showToast()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L377",
+      "id": "js_portfolio_engine_showtoast",
+      "community": 0,
+      "norm_label": "showtoast()"
+    },
+    {
+      "label": "closeMobileDrawer()",
+      "file_type": "code",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L389",
+      "id": "js_portfolio_engine_closemobiledrawer",
+      "community": 0,
+      "norm_label": "closemobiledrawer()"
+    },
+    {
+      "label": "update_graphify.py",
+      "file_type": "code",
+      "source_file": "scripts/update_graphify.py",
+      "source_location": "L1",
+      "id": "scripts_update_graphify_py",
+      "community": 6,
+      "norm_label": "update_graphify.py"
+    },
+    {
+      "label": "main()",
+      "file_type": "code",
+      "source_file": "scripts/update_graphify.py",
+      "source_location": "L13",
+      "id": "scripts_update_graphify_main",
+      "community": 6,
+      "norm_label": "main()"
+    },
+    {
+      "label": "Automated Graphify Knowledge Graph Synchronizer. Runs on code updates to re-extr",
+      "file_type": "rationale",
+      "source_file": "scripts/update_graphify.py",
+      "source_location": "L1",
+      "id": "scripts_update_graphify_rationale_1",
+      "community": 6,
+      "norm_label": "automated graphify knowledge graph synchronizer. runs on code updates to re-extr"
+    },
+    {
+      "label": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L1",
+      "id": "portfolio_system_architecture_md",
+      "community": 6,
+      "norm_label": "portfolio_system_architecture.md"
+    },
+    {
+      "label": "Himanshi Parihar Portfolio \u2014 System Architecture & Graphify Knowledge Graph",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L1",
+      "id": "heavy_clone_portfolio_system_architecture_himanshi_parihar_portfolio_system_architecture_graphify_knowledge_graph",
+      "community": 7,
+      "norm_label": "himanshi parihar portfolio \u2014 system architecture & graphify knowledge graph"
+    },
+    {
+      "label": "1. Graphify Knowledge Graph Summary",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L7",
+      "id": "heavy_clone_portfolio_system_architecture_1_graphify_knowledge_graph_summary",
+      "community": 7,
+      "norm_label": "1. graphify knowledge graph summary"
+    },
+    {
+      "label": "Graphify Artifacts Generated in `graphify-out/`",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L11",
+      "id": "heavy_clone_portfolio_system_architecture_graphify_artifacts_generated_in_graphify_out",
+      "community": 7,
+      "norm_label": "graphify artifacts generated in `graphify-out/`"
+    },
+    {
+      "label": "code:block1 (Graphify Topology Metrics:)",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L19",
+      "id": "heavy_clone_portfolio_system_architecture_codeblock_1",
+      "community": 7,
+      "norm_label": "code:block1 (graphify topology metrics:)"
+    },
+    {
+      "label": "2. Clustered Functional Communities",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L29",
+      "id": "heavy_clone_portfolio_system_architecture_2_clustered_functional_communities",
+      "community": 7,
+      "norm_label": "2. clustered functional communities"
+    },
+    {
+      "label": "code:mermaid (flowchart TD)",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L31",
+      "id": "heavy_clone_portfolio_system_architecture_codeblock_2",
+      "community": 7,
+      "norm_label": "code:mermaid (flowchart td)"
+    },
+    {
+      "label": "3. Subsystem Architecture Deep-Dives",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L58",
+      "id": "heavy_clone_portfolio_system_architecture_3_subsystem_architecture_deep_dives",
+      "community": 8,
+      "norm_label": "3. subsystem architecture deep-dives"
+    },
+    {
+      "label": "Subsystem 1: CLICK TO MEET Badge Continuous Scroll Physics",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L60",
+      "id": "heavy_clone_portfolio_system_architecture_subsystem_1_click_to_meet_badge_continuous_scroll_physics",
+      "community": 8,
+      "norm_label": "subsystem 1: click to meet badge continuous scroll physics"
+    },
+    {
+      "label": "Subsystem 2: 120Hz Hardware Acceleration & Paint Containment",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L69",
+      "id": "heavy_clone_portfolio_system_architecture_subsystem_2_120hz_hardware_acceleration_paint_containment",
+      "community": 8,
+      "norm_label": "subsystem 2: 120hz hardware acceleration & paint containment"
+    },
+    {
+      "label": "Subsystem 3: Progressive Skeleton Shimmer & Blur-Up Pipeline",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L76",
+      "id": "heavy_clone_portfolio_system_architecture_subsystem_3_progressive_skeleton_shimmer_blur_up_pipeline",
+      "community": 8,
+      "norm_label": "subsystem 3: progressive skeleton shimmer & blur-up pipeline"
+    },
+    {
+      "label": "Subsystem 4: Batch Layout Injection & Modal Case Study Engine",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L84",
+      "id": "heavy_clone_portfolio_system_architecture_subsystem_4_batch_layout_injection_modal_case_study_engine",
+      "community": 8,
+      "norm_label": "subsystem 4: batch layout injection & modal case study engine"
+    },
+    {
+      "label": "4. End-to-End User Interaction Flow",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L94",
+      "id": "heavy_clone_portfolio_system_architecture_4_end_to_end_user_interaction_flow",
+      "community": 7,
+      "norm_label": "4. end-to-end user interaction flow"
+    },
+    {
+      "label": "code:mermaid (sequenceDiagram)",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L96",
+      "id": "heavy_clone_portfolio_system_architecture_codeblock_3",
+      "community": 7,
+      "norm_label": "code:mermaid (sequencediagram)"
+    },
+    {
+      "label": "5. Exploring the Knowledge Graph via CLI",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L129",
+      "id": "heavy_clone_portfolio_system_architecture_5_exploring_the_knowledge_graph_via_cli",
+      "community": 7,
+      "norm_label": "5. exploring the knowledge graph via cli"
+    },
+    {
+      "label": "code:powershell (# Open the interactive 3D/2D physics graph in Chrome / Edge)",
+      "file_type": "document",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L133",
+      "id": "heavy_clone_portfolio_system_architecture_codeblock_4",
+      "community": 7,
+      "norm_label": "code:powershell (# open the interactive 3d/2d physics graph in chrome / edge)"
+    },
+    {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "id": "readme_md",
+      "community": 6,
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "Himanshi Parihar \u2014 Heavy Branding Studio Portfolio",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "id": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio",
+      "community": 1,
+      "norm_label": "himanshi parihar \u2014 heavy branding studio portfolio"
+    },
+    {
+      "label": "\ud83c\udf10 Live Interactive Architecture & Graphify Cluster",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L10",
+      "id": "heavy_clone_readme_live_interactive_architecture_graphify_cluster",
+      "community": 1,
+      "norm_label": "\ud83c\udf10 live interactive architecture & graphify cluster"
+    },
+    {
+      "label": "\ud83d\udd0d Graphify Cluster View (Rendered on GitHub)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "id": "heavy_clone_readme_graphify_cluster_view_rendered_on_github",
+      "community": 1,
+      "norm_label": "\ud83d\udd0d graphify cluster view (rendered on github)"
+    },
+    {
+      "label": "\u2728 Features & Architecture",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L27",
+      "id": "heavy_clone_readme_features_architecture",
+      "community": 2,
+      "norm_label": "\u2728 features & architecture"
+    },
+    {
+      "label": "1. CLICK TO MEET Badge Continuous Scroll Physics",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L29",
+      "id": "heavy_clone_readme_1_click_to_meet_badge_continuous_scroll_physics",
+      "community": 2,
+      "norm_label": "1. click to meet badge continuous scroll physics"
+    },
+    {
+      "label": "2. Buttery Smooth Inertial Momentum Scrolling",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L34",
+      "id": "heavy_clone_readme_2_buttery_smooth_inertial_momentum_scrolling",
+      "community": 2,
+      "norm_label": "2. buttery smooth inertial momentum scrolling"
+    },
+    {
+      "label": "3. GPU Hardware Acceleration & Paint Containment",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L39",
+      "id": "heavy_clone_readme_3_gpu_hardware_acceleration_paint_containment",
+      "community": 2,
+      "norm_label": "3. gpu hardware acceleration & paint containment"
+    },
+    {
+      "label": "4. Progressive Skeleton Shimmer & Blur-Up Image Pipeline",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L44",
+      "id": "heavy_clone_readme_4_progressive_skeleton_shimmer_blur_up_image_pipeline",
+      "community": 2,
+      "norm_label": "4. progressive skeleton shimmer & blur-up image pipeline"
+    },
+    {
+      "label": "5. Interactive Project Case Studies & Products Showcase",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L50",
+      "id": "heavy_clone_readme_5_interactive_project_case_studies_products_showcase",
+      "community": 2,
+      "norm_label": "5. interactive project case studies & products showcase"
+    },
+    {
+      "label": "6. Glittering & Color-Changing \"LET'S TALK \u2728\" Button",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L57",
+      "id": "heavy_clone_readme_6_glittering_color_changing_let_s_talk_button",
+      "community": 2,
+      "norm_label": "6. glittering & color-changing \"let's talk \u2728\" button"
+    },
+    {
+      "label": "\ud83c\udfd7\ufe0f System Architecture & Clustered Communities",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L64",
+      "id": "heavy_clone_readme_system_architecture_clustered_communities",
+      "community": 1,
+      "norm_label": "\ud83c\udfd7\ufe0f system architecture & clustered communities"
+    },
+    {
+      "label": "Clustered Functional Communities",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L74",
+      "id": "heavy_clone_readme_clustered_functional_communities",
+      "community": 1,
+      "norm_label": "clustered functional communities"
+    },
+    {
+      "label": "\ud83d\ude80 Getting Started",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L85",
+      "id": "heavy_clone_readme_getting_started",
+      "community": 1,
+      "norm_label": "\ud83d\ude80 getting started"
+    },
+    {
+      "label": "code:bash (# Clone the repository)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L89",
+      "id": "heavy_clone_readme_codeblock_1",
+      "community": 1,
+      "norm_label": "code:bash (# clone the repository)"
+    },
+    {
+      "label": "\ud83d\udd0d Exploring the Graphify Knowledge Graph",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L103",
+      "id": "heavy_clone_readme_exploring_the_graphify_knowledge_graph",
+      "community": 1,
+      "norm_label": "\ud83d\udd0d exploring the graphify knowledge graph"
+    },
+    {
+      "label": "code:powershell (# Open the interactive 3D/2D physics graph in Chrome / Edge)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L107",
+      "id": "heavy_clone_readme_codeblock_2",
+      "community": 1,
+      "norm_label": "code:powershell (# open the interactive 3d/2d physics graph in chrome / edge)"
+    },
+    {
+      "label": "\ud83d\udcc1 Repository Structure",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L132",
+      "id": "heavy_clone_readme_repository_structure",
+      "community": 1,
+      "norm_label": "\ud83d\udcc1 repository structure"
+    },
+    {
+      "label": "code:block3 (\u251c\u2500\u2500 index.html                   # Main long-scrolling portf)",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L134",
+      "id": "heavy_clone_readme_codeblock_3",
+      "community": 1,
+      "norm_label": "code:block3 (\u251c\u2500\u2500 index.html                   # main long-scrolling portf)"
+    },
+    {
+      "label": "\ud83c\udfa8 Credits & Colophon",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L152",
+      "id": "heavy_clone_readme_credits_colophon",
+      "community": 1,
+      "norm_label": "\ud83c\udfa8 credits & colophon"
+    },
+    {
+      "label": "1. Buttery Smooth Inertial Momentum Scrolling",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L12",
+      "community": 8,
+      "norm_label": "1. buttery smooth inertial momentum scrolling",
+      "id": "heavy_clone_readme_1_buttery_smooth_inertial_momentum_scrolling"
+    },
+    {
+      "label": "2. GPU Hardware Acceleration & Paint Containment",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L17",
+      "community": 2,
+      "norm_label": "2. gpu hardware acceleration & paint containment",
+      "id": "heavy_clone_readme_2_gpu_hardware_acceleration_paint_containment"
+    },
+    {
+      "label": "3. Progressive Skeleton Shimmer & Blur-Up Image Pipeline",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L22",
+      "community": 2,
+      "norm_label": "3. progressive skeleton shimmer & blur-up image pipeline",
+      "id": "heavy_clone_readme_3_progressive_skeleton_shimmer_blur_up_image_pipeline"
+    },
+    {
+      "label": "4. Interactive Project Case Studies & Products Showcase",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L28",
+      "community": 0,
+      "norm_label": "4. interactive project case studies & products showcase",
+      "id": "heavy_clone_readme_4_interactive_project_case_studies_products_showcase"
+    },
+    {
+      "label": "5. Glittering & Color-Changing \"LET'S TALK \u2728\" Button",
+      "file_type": "document",
+      "source_file": "README.md",
+      "source_location": "L35",
+      "community": 2,
+      "norm_label": "5. glittering & color-changing \"let's talk \u2728\" button",
+      "id": "heavy_clone_readme_5_glittering_color_changing_let_s_talk_button"
+    }
+  ],
+  "links": [
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L14",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_initscrollanimations"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L64",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_renderprojects"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L93",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_filterprojects"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L110",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_kimiscroller"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L131",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_smoothscrollto"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L150",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_initclickbadgescroll"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L231",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_onproductimageloaded"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L249",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_openprojectmodal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L271",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_displayprojectinmodal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L335",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_navigateproject"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L348",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_closeprojectmodal"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L363",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_copyemail"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L370",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_handleformsubmit"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L377",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_showtoast"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L389",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_js",
+      "target": "js_portfolio_engine_closemobiledrawer"
+    },
+    {
+      "relation": "documents_engine",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "portfolio_system_architecture_md",
+      "target": "js_portfolio_engine_js"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L85",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_renderprojects",
+      "target": "js_portfolio_engine_initscrollanimations"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L99",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_filterprojects",
+      "target": "js_portfolio_engine_renderprojects"
+    },
+    {
+      "relation": "renders",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "heavy_clone_readme_4_interactive_project_case_studies_products_showcase",
+      "target": "js_portfolio_engine_renderprojects"
+    },
+    {
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "heavy_clone_portfolio_system_architecture_subsystem_2_120hz_hardware_acceleration_paint_containment",
+      "target": "js_portfolio_engine_kimiscroller"
+    },
+    {
+      "relation": "executes",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "heavy_clone_readme_1_buttery_smooth_inertial_momentum_scrolling",
+      "target": "js_portfolio_engine_kimiscroller"
+    },
+    {
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "heavy_clone_portfolio_system_architecture_subsystem_1_click_to_meet_badge_continuous_scroll_physics",
+      "target": "js_portfolio_engine_initclickbadgescroll"
+    },
+    {
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "heavy_clone_portfolio_system_architecture_subsystem_3_progressive_skeleton_shimmer_blur_up_pipeline",
+      "target": "js_portfolio_engine_onproductimageloaded"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L255",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_openprojectmodal",
+      "target": "js_portfolio_engine_displayprojectinmodal"
+    },
+    {
+      "relation": "implements",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "heavy_clone_portfolio_system_architecture_subsystem_4_batch_layout_injection_modal_case_study_engine",
+      "target": "js_portfolio_engine_openprojectmodal"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L338",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_navigateproject",
+      "target": "js_portfolio_engine_displayprojectinmodal"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "js/portfolio-engine.js",
+      "source_location": "L373",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "js_portfolio_engine_handleformsubmit",
+      "target": "js_portfolio_engine_showtoast"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/update_graphify.py",
+      "source_location": "L13",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_update_graphify_py",
+      "target": "scripts_update_graphify_main"
+    },
+    {
+      "relation": "rationale_for",
+      "confidence": "EXTRACTED",
+      "source_file": "scripts/update_graphify.py",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "scripts_update_graphify_rationale_1",
+      "target": "scripts_update_graphify_py"
+    },
+    {
+      "relation": "synchronizes",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "scripts_update_graphify_py",
+      "target": "portfolio_system_architecture_md"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "portfolio_system_architecture_md",
+      "target": "heavy_clone_portfolio_system_architecture_himanshi_parihar_portfolio_system_architecture_graphify_knowledge_graph"
+    },
+    {
+      "relation": "references_architecture",
+      "confidence": "INFERRED",
+      "weight": 1.0,
+      "confidence_score": 0.88,
+      "source": "readme_md",
+      "target": "portfolio_system_architecture_md"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_himanshi_parihar_portfolio_system_architecture_graphify_knowledge_graph",
+      "target": "heavy_clone_portfolio_system_architecture_1_graphify_knowledge_graph_summary"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L29",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_himanshi_parihar_portfolio_system_architecture_graphify_knowledge_graph",
+      "target": "heavy_clone_portfolio_system_architecture_2_clustered_functional_communities"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L58",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_himanshi_parihar_portfolio_system_architecture_graphify_knowledge_graph",
+      "target": "heavy_clone_portfolio_system_architecture_3_subsystem_architecture_deep_dives"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L94",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_himanshi_parihar_portfolio_system_architecture_graphify_knowledge_graph",
+      "target": "heavy_clone_portfolio_system_architecture_4_end_to_end_user_interaction_flow"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L129",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_himanshi_parihar_portfolio_system_architecture_graphify_knowledge_graph",
+      "target": "heavy_clone_portfolio_system_architecture_5_exploring_the_knowledge_graph_via_cli"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_1_graphify_knowledge_graph_summary",
+      "target": "heavy_clone_portfolio_system_architecture_graphify_artifacts_generated_in_graphify_out"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_graphify_artifacts_generated_in_graphify_out",
+      "target": "heavy_clone_portfolio_system_architecture_codeblock_1"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L31",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_2_clustered_functional_communities",
+      "target": "heavy_clone_portfolio_system_architecture_codeblock_2"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L60",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_3_subsystem_architecture_deep_dives",
+      "target": "heavy_clone_portfolio_system_architecture_subsystem_1_click_to_meet_badge_continuous_scroll_physics"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L69",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_3_subsystem_architecture_deep_dives",
+      "target": "heavy_clone_portfolio_system_architecture_subsystem_2_120hz_hardware_acceleration_paint_containment"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L76",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_3_subsystem_architecture_deep_dives",
+      "target": "heavy_clone_portfolio_system_architecture_subsystem_3_progressive_skeleton_shimmer_blur_up_pipeline"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L84",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_3_subsystem_architecture_deep_dives",
+      "target": "heavy_clone_portfolio_system_architecture_subsystem_4_batch_layout_injection_modal_case_study_engine"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L96",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_4_end_to_end_user_interaction_flow",
+      "target": "heavy_clone_portfolio_system_architecture_codeblock_3"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "PORTFOLIO_SYSTEM_ARCHITECTURE.md",
+      "source_location": "L133",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_portfolio_system_architecture_5_exploring_the_knowledge_graph_via_cli",
+      "target": "heavy_clone_portfolio_system_architecture_codeblock_4"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "readme_md",
+      "target": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio",
+      "target": "heavy_clone_readme_live_interactive_architecture_graphify_cluster",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L10",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio",
+      "target": "heavy_clone_readme_features_architecture"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L64",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio",
+      "target": "heavy_clone_readme_system_architecture_clustered_communities",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L42",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio",
+      "target": "heavy_clone_readme_getting_started"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L103",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio",
+      "target": "heavy_clone_readme_exploring_the_graphify_knowledge_graph",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L60",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio",
+      "target": "heavy_clone_readme_repository_structure"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L77",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_himanshi_parihar_heavy_branding_studio_portfolio",
+      "target": "heavy_clone_readme_credits_colophon"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L19",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_live_interactive_architecture_graphify_cluster",
+      "target": "heavy_clone_readme_graphify_cluster_view_rendered_on_github",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L29",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_1_click_to_meet_badge_continuous_scroll_physics",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L34",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_2_buttery_smooth_inertial_momentum_scrolling",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L39",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_3_gpu_hardware_acceleration_paint_containment",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L44",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_4_progressive_skeleton_shimmer_blur_up_image_pipeline",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L50",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_5_interactive_project_case_studies_products_showcase",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L57",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_6_glittering_color_changing_let_s_talk_button",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L12",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_1_buttery_smooth_inertial_momentum_scrolling"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L17",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_2_gpu_hardware_acceleration_paint_containment"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L22",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_3_progressive_skeleton_shimmer_blur_up_image_pipeline"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L28",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_4_interactive_project_case_studies_products_showcase"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L35",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_features_architecture",
+      "target": "heavy_clone_readme_5_glittering_color_changing_let_s_talk_button"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_system_architecture_clustered_communities",
+      "target": "heavy_clone_readme_clustered_functional_communities",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L46",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_getting_started",
+      "target": "heavy_clone_readme_codeblock_1"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L107",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_exploring_the_graphify_knowledge_graph",
+      "target": "heavy_clone_readme_codeblock_2",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "confidence_score": 1.0,
+      "source": "heavy_clone_readme_repository_structure",
+      "target": "heavy_clone_readme_codeblock_2"
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "README.md",
+      "source_location": "L134",
+      "weight": 1.0,
+      "source": "heavy_clone_readme_repository_structure",
+      "target": "heavy_clone_readme_codeblock_3",
+      "confidence_score": 1.0
+    }
+  ],
+  "hyperedges": [],
+  "built_at_commit": "9968e58eba0b2ff191a2f0d0c688804fd1b478ef"
+}

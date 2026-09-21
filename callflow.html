@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>heavy-clone — Complete Call Flow &amp; Architecture Documentation</title>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<style>
+:root {
+  --bg: #0f172a; --surface: #1e293b; --border: #334155;
+  --text: #e2e8f0; --muted: #94a3b8; --accent: #38bdf8;
+  --warn: #fbbf24; --err: #f87171; --ok: #34d399;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; }
+.container { max-width: 1200px; margin: 0 auto; padding: 40px 24px; }
+h1 { font-size: 2.4rem; margin-bottom: 8px; background: linear-gradient(135deg, var(--accent), #a78bfa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+h2 { font-size: 1.7rem; margin: 48px 0 16px; padding-bottom: 8px; border-bottom: 2px solid var(--accent); }
+h3 { font-size: 1.25rem; margin: 32px 0 12px; color: var(--accent); }
+h4 { font-size: 1.05rem; margin: 20px 0 8px; color: var(--warn); }
+p { margin: 8px 0; color: var(--muted); }
+.subtitle { color: var(--muted); font-size: 1.1rem; margin-bottom: 32px; }
+.mermaid { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 24px; margin: 20px 0; overflow-x: auto; position: relative; }
+.mermaid.is-enhanced { padding: 0; overflow: hidden; min-height: 260px; }
+.mermaid-viewport { padding: 54px 24px 24px; overflow: hidden; cursor: grab; touch-action: none; min-height: 260px; }
+.mermaid-viewport.is-dragging { cursor: grabbing; }
+.mermaid-viewport svg { max-width: none !important; height: auto; transform-origin: 0 0; transition: transform 120ms ease; }
+.mermaid-toolbar { position: absolute; top: 10px; right: 10px; z-index: 3; display: flex; align-items: center; gap: 6px; padding: 6px; background: rgba(15,23,42,0.92); border: 1px solid var(--border); border-radius: 8px; box-shadow: 0 8px 24px rgba(0,0,0,0.28); }
+.mermaid-toolbar button, .mermaid-toolbar .zoom-level { height: 28px; min-width: 32px; border: 1px solid var(--border); border-radius: 6px; background: #1e293b; color: var(--text); font: 600 0.78rem system-ui, sans-serif; display: inline-flex; align-items: center; justify-content: center; }
+.mermaid-toolbar button { cursor: pointer; }
+.mermaid-toolbar button:hover { border-color: var(--accent); color: var(--accent); }
+.mermaid-toolbar .zoom-level { min-width: 52px; color: var(--muted); background: transparent; }
+.call-table { width: 100%; border-collapse: collapse; margin: 16px 0; font-size: 0.92rem; }
+.call-table th { background: #1a2744; color: var(--accent); text-align: left; padding: 10px 14px; border: 1px solid var(--border); }
+.call-table td { padding: 8px 14px; border: 1px solid var(--border); vertical-align: top; }
+.call-table tr:nth-child(even) { background: rgba(255,255,255,0.02); }
+.tag { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
+.tag-async { background: #7c3aed33; color: #a78bfa; }
+.tag-class { background: #05966933; color: var(--ok); }
+.tag-func { background: #2563eb33; color: var(--accent); }
+.tag-cmd { background: #d9770633; color: var(--warn); }
+.tag-endpoint { background: #dc262633; color: var(--err); }
+.tag-hook { background: #db277733; color: #f472b6; }
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin: 16px 0; }
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 16px; margin: 16px 0; }
+.arrow-chain { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--accent); padding: 10px; background: rgba(56,189,248,0.06); border-radius: 6px; }
+code { font-family: 'Fira Code', 'Cascadia Code', monospace; background: rgba(255,255,255,0.06); padding: 1px 6px; border-radius: 3px; font-size: 0.88em; }
+ul, ol { margin: 8px 0 8px 24px; color: var(--muted); }
+li { margin: 4px 0; }
+a { color: var(--accent); }
+hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.nav { position: sticky; top: 0; background: var(--bg); z-index: 10; padding: 12px 0; border-bottom: 1px solid var(--border); display: flex; gap: 20px; flex-wrap: wrap; font-size: 0.9rem; }
+.nav a { text-decoration: none; }
+.nav a:hover { text-decoration: underline; }
+@media (max-width: 768px) { .container { padding: 16px; } h1 { font-size: 1.8rem; } }
+
+</style>
+</head>
+<body>
+<div class="container">
+
+<h1>heavy-clone — Complete Call Flow &amp; Architecture Documentation</h1>
+<p class="subtitle">Generated from graphify knowledge graph: 60 nodes, 71 edges, 6 communities. Commit: 9968e58</p>
+
+<div class="nav">
+    <a href="#overview">Architecture Overview</a>
+    <a href="#build-graph">Graph Build</a>
+    <a href="#ingest-cache-update">Ingestion &amp; Updates</a>
+    <a href="#community-0">Community 0</a>
+    <a href="#community-2">Community 2</a>
+    <a href="#community-8">Community 8</a>
+</div>
+
+<!-- ====== Architecture Overview ====== -->
+<h2 id="overview">1. Architecture Overview</h2>
+
+<div class="mermaid">
+
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    BUILD_GRAPH_321CBB04("Graph Build<br/><small>22 nodes</small>")
+    class BUILD_GRAPH_321CBB04 module;
+    INGEST_CACHE_UPDATE_FF457338("Ingestion &amp; Updates<br/><small>5 nodes</small>")
+    class INGEST_CACHE_UPDATE_FF457338 module;
+    COMMUNITY_0_B056AD3D("Community 0<br/><small>14 nodes</small>")
+    class COMMUNITY_0_B056AD3D module;
+    COMMUNITY_2_8C8DF7B9("Community 2<br/><small>10 nodes</small>")
+    class COMMUNITY_2_8C8DF7B9 module;
+    COMMUNITY_8_9FC4FAC0("Community 8<br/><small>9 nodes</small>")
+    class COMMUNITY_8_9FC4FAC0 module;
+    COMMUNITY_0_B056AD3D -->|contains x4| COMMUNITY_8_9FC4FAC0
+    INGEST_CACHE_UPDATE_FF457338 -->|contains x2| BUILD_GRAPH_321CBB04
+    COMMUNITY_0_B056AD3D -->|documents engine| INGEST_CACHE_UPDATE_FF457338
+    BUILD_GRAPH_321CBB04 -->|contains| COMMUNITY_8_9FC4FAC0
+    BUILD_GRAPH_321CBB04 -->|contains| COMMUNITY_2_8C8DF7B9
+    COMMUNITY_2_8C8DF7B9 -->|contains| COMMUNITY_8_9FC4FAC0
+    COMMUNITY_2_8C8DF7B9 -->|contains| COMMUNITY_0_B056AD3D
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<div class="grid">
+  <div class="card">
+    <h4>Architecture Layers</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>Layer</th><th>Nodes</th><th>Communities</th></tr>
+      <tr><td>Graph Build</td><td>22</td><td><code>1, 7</code></td></tr><tr><td>Ingestion &amp; Updates</td><td>5</td><td><code>6</code></td></tr><tr><td>Community 0</td><td>14</td><td><code>0</code></td></tr><tr><td>Community 2</td><td>10</td><td><code>2</code></td></tr><tr><td>Community 8</td><td>9</td><td><code>8</code></td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Core Flow</h4>
+    <div class="arrow-chain">Ingestion &amp; Updates -&gt; Graph Build -&gt; Community 8 -&gt; Community 0 -&gt; Community 2</div>
+  </div>
+</div>
+<div class="grid">
+  <div class="card">
+    <h4>Graph Report Highlights</h4>
+    <ul>
+      <li>60 nodes · 71 edges · 6 communities (5 shown, 1 thin omitted)</li>
+      <li>Extraction: 87% EXTRACTED · 13% INFERRED · 0% AMBIGUOUS · INFERRED: 9 edges (avg confidence: 0.88)</li>
+      <li>Token cost: 0 input · 0 output</li>
+      <li>1. `✨ Features &amp; Architecture` - 12 edges</li>
+      <li>2. `Himanshi Parihar — Heavy Branding Studio Portfolio` - 8 edges</li>
+      <li>3. `Himanshi Parihar Portfolio — System Architecture &amp; Graphify Knowledge Graph` - 6 edges</li>
+    </ul>
+  </div>
+</div>
+<hr>
+<!-- ====== 2. Graph Build ====== -->
+<h2 id="build-graph">2. Graph Build</h2>
+<p>Graph Build groups implementation around portfolio, readmemd, system, architecturemd, mostly in README.md, PORTFOLIO_SYSTEM_ARCHITECTURE.md. This section covers 22 nodes and 21 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Graph Build (22 nodes, 21 edges)
+    subgraph build_graph_PORTFOLIO_SYSTEM_ARCHITECTURE_md_4aa9887f["PORTFOLIO_SYSTEM_ARCHITECTURE.md"]
+        heavy_clone_portfolio_system_architecture_himans_030dfc8b("Himanshi Parihar Portfolio — System Arc...<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_1_grap_f987c9fe("1. Graphify Knowledge Graph Summary<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_2_clus_01379fee("2. Clustered Functional Communities<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_4_end_7fc63bc5("4. End-to-End User Interaction Flow<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_5_expl_f64e1921("5. Exploring the Knowledge Graph via CLI<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_graphi_6321f47d("Graphify Artifacts Generated in graphi...<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_codebl_2e7fdaab("code:block1 (Graphify Topology Metrics:)<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_codebl_b6ec2a8d("code:mermaid (flowchart TD)<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_codebl_a046ff01("code:mermaid (sequenceDiagram)<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_codebl_ff13c8b8("code:powershell ( Open the interactive...<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+    end
+    subgraph build_graph_README_md_df5bf028["README.md"]
+        heavy_clone_readme_himanshi_parihar_heavy_brandi_b53e9740("Himanshi Parihar — Heavy Branding Studi...<br/><small>README.md</small>")
+        heavy_clone_readme_repository_structure_d9089728("📁 Repository Structure<br/><small>README.md</small>")
+        heavy_clone_readme_codeblock_2_19ae1425("code:powershell ( Open the interactive...<br/><small>README.md</small>")
+        heavy_clone_readme_live_interactive_architecture_391618be("🌐 Live Interactive Architecture &amp; Graph...<br/><small>README.md</small>")
+        heavy_clone_readme_system_architecture_clustered_f21f2edf("🏗️ System Architecture &amp; Clustered Comm...<br/><small>README.md</small>")
+        heavy_clone_readme_exploring_the_graphify_knowle_e09392ab("🔍 Exploring the Graphify Knowledge Graph<br/><small>README.md</small>")
+        heavy_clone_readme_getting_started_f935e5ea("🚀 Getting Started<br/><small>README.md</small>")
+        heavy_clone_readme_clustered_functional_communit_9bc7df95("Clustered Functional Communities<br/><small>README.md</small>")
+    end
+    heavy_clone_portfolio_system_architecture_himans_030dfc8b -->|contains| heavy_clone_portfolio_system_architecture_1_grap_f987c9fe
+    heavy_clone_portfolio_system_architecture_himans_030dfc8b -->|contains| heavy_clone_portfolio_system_architecture_2_clus_01379fee
+    heavy_clone_portfolio_system_architecture_himans_030dfc8b -->|contains| heavy_clone_portfolio_system_architecture_4_end_7fc63bc5
+    heavy_clone_portfolio_system_architecture_himans_030dfc8b -->|contains| heavy_clone_portfolio_system_architecture_5_expl_f64e1921
+    heavy_clone_portfolio_system_architecture_1_grap_f987c9fe -->|contains| heavy_clone_portfolio_system_architecture_graphi_6321f47d
+    heavy_clone_portfolio_system_architecture_graphi_6321f47d -->|contains| heavy_clone_portfolio_system_architecture_codebl_2e7fdaab
+    heavy_clone_portfolio_system_architecture_2_clus_01379fee -->|contains| heavy_clone_portfolio_system_architecture_codebl_b6ec2a8d
+    heavy_clone_portfolio_system_architecture_4_end_7fc63bc5 -->|contains| heavy_clone_portfolio_system_architecture_codebl_a046ff01
+    heavy_clone_portfolio_system_architecture_5_expl_f64e1921 -->|contains| heavy_clone_portfolio_system_architecture_codebl_ff13c8b8
+    heavy_clone_readme_himanshi_parihar_heavy_brandi_b53e9740 -->|contains| heavy_clone_readme_live_interactive_architecture_391618be
+    heavy_clone_readme_himanshi_parihar_heavy_brandi_b53e9740 -->|contains| heavy_clone_readme_system_architecture_clustered_f21f2edf
+    heavy_clone_readme_himanshi_parihar_heavy_brandi_b53e9740 -->|contains| heavy_clone_readme_getting_started_f935e5ea
+    heavy_clone_readme_himanshi_parihar_heavy_brandi_b53e9740 -->|contains| heavy_clone_readme_exploring_the_graphify_knowle_e09392ab
+    heavy_clone_readme_himanshi_parihar_heavy_brandi_b53e9740 -->|contains| heavy_clone_readme_repository_structure_d9089728
+    heavy_clone_readme_system_architecture_clustered_f21f2edf -->|contains| heavy_clone_readme_clustered_functional_communit_9bc7df95
+    heavy_clone_readme_exploring_the_graphify_knowle_e09392ab -->|contains| heavy_clone_readme_codeblock_2_19ae1425
+    heavy_clone_readme_codeblock_2_19ae1425 -->|contains| heavy_clone_readme_repository_structure_d9089728
+    %% Omitted for readability: 4 nodes, 0 edges
+    class heavy_clone_portfolio_system_architecture_himans_030dfc8b concept;
+    class heavy_clone_portfolio_system_architecture_1_grap_f987c9fe concept;
+    class heavy_clone_portfolio_system_architecture_2_clus_01379fee concept;
+    class heavy_clone_portfolio_system_architecture_4_end_7fc63bc5 concept;
+    class heavy_clone_portfolio_system_architecture_5_expl_f64e1921 concept;
+    class heavy_clone_portfolio_system_architecture_graphi_6321f47d concept;
+    class heavy_clone_portfolio_system_architecture_codebl_2e7fdaab concept;
+    class heavy_clone_portfolio_system_architecture_codebl_b6ec2a8d concept;
+    class heavy_clone_portfolio_system_architecture_codebl_a046ff01 concept;
+    class heavy_clone_portfolio_system_architecture_codebl_ff13c8b8 concept;
+    class heavy_clone_readme_himanshi_parihar_heavy_brandi_b53e9740 concept;
+    class heavy_clone_readme_repository_structure_d9089728 concept;
+    class heavy_clone_readme_codeblock_2_19ae1425 concept;
+    class heavy_clone_readme_live_interactive_architecture_391618be concept;
+    class heavy_clone_readme_system_architecture_clustered_f21f2edf concept;
+    class heavy_clone_readme_exploring_the_graphify_knowle_e09392ab concept;
+    class heavy_clone_readme_getting_started_f935e5ea concept;
+    class heavy_clone_readme_clustered_functional_communit_9bc7df95 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>Himanshi Parihar — Heavy Branding Studio Portfolio</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Himanshi Parihar — Heavy Branding Studio Portfolio.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>🌐 Live Interactive Architecture &amp; Graphify Cluster</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🌐 Live Interactive Architecture &amp; Graphify Cluster.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>🔍 Graphify Cluster View (Rendered on GitHub)</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🔍 Graphify Cluster View (Rendered on GitHub).</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>🏗️ System Architecture &amp; Clustered Communities</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🏗️ System Architecture &amp; Clustered Communities.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>Clustered Functional Communities</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Clustered Functional Communities.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>🚀 Getting Started</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🚀 Getting Started.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>code:bash (# Clone the repository)</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing code:bash (# Clone the repository).</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>🔍 Exploring the Graphify Knowledge Graph</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🔍 Exploring the Graphify Knowledge Graph.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>code:powershell (# Open the interactive 3D/2D physics graph in Chrome / Edge)</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing code:powershell (# Open the interactive 3D/2D physics graph in Chrome / Edge).</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>📁 Repository Structure</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 📁 Repository Structure.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>code:block3 (├── index.html                   # Main long-scrolling portf)</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing code:block3 (├── index.html                   # Main long-scrolling portf).</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>🎨 Credits &amp; Colophon</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 🎨 Credits &amp; Colophon.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>Himanshi Parihar Portfolio — System Architecture &amp; Graphify Knowledge Graph</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Himanshi Parihar Portfolio — System Architecture &amp; Graphify Knowledge Graph.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>1. Graphify Knowledge Graph Summary</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 1. Graphify Knowledge Graph Summary.</td>
+</tr>
+<tr>
+  <td>15</td>
+  <td><code>Graphify Artifacts Generated in `graphify-out/`</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Graphify Artifacts Generated in `graphify-out/`.</td>
+</tr>
+<tr>
+  <td>16</td>
+  <td><code>code:block1 (Graphify Topology Metrics:)</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing code:block1 (Graphify Topology Metrics:).</td>
+</tr>
+<tr>
+  <td>17</td>
+  <td><code>2. Clustered Functional Communities</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2. Clustered Functional Communities.</td>
+</tr>
+<tr>
+  <td>18</td>
+  <td><code>code:mermaid (flowchart TD)</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing code:mermaid (flowchart TD).</td>
+</tr>
+<tr>
+  <td>19</td>
+  <td><code>4. End-to-End User Interaction Flow</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 4. End-to-End User Interaction Flow.</td>
+</tr>
+<tr>
+  <td>20</td>
+  <td><code>code:mermaid (sequenceDiagram)</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing code:mermaid (sequenceDiagram).</td>
+</tr>
+<tr>
+  <td>21</td>
+  <td><code>5. Exploring the Knowledge Graph via CLI</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 5. Exploring the Knowledge Graph via CLI.</td>
+</tr>
+<tr>
+  <td>22</td>
+  <td><code>code:powershell (# Open the interactive 3D/2D physics graph in Chrome / Edge)</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing code:powershell (# Open the interactive 3D/2D physics graph in Chrome / Edge).</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>README.md</code></td><td>12 nodes</td></tr>
+<tr><td><code>PORTFOLIO_SYSTEM_ARCHITECTURE.md</code></td><td>10 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x21. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 3. Ingestion & Updates ====== -->
+<h2 id="ingest-cache-update">3. Ingestion &amp; Updates</h2>
+<p>Ingestion &amp; Updates groups implementation around update, graphifypy, scripts, portfolio, mostly in scripts/update_graphify.py, PORTFOLIO_SYSTEM_ARCHITECTURE.md, README.md. This section covers 5 nodes and 4 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Ingestion &amp; Updates (5 nodes, 4 edges)
+    subgraph ingest_cache_update_scripts_update_graphify_py_21c82d85["scripts/update_graphify.py"]
+        scripts_update_graphify_py_8c83392b("update_graphify.py")
+        scripts_update_graphify_main_9bd74b6d("main()<br/><small>scripts/update_graphify.py</small>")
+        scripts_update_graphify_rationale_1_be7a4fe6("Automated Graphify Knowledge Graph Sync...<br/><small>scripts/update_graphify.py</small>")
+    end
+    portfolio_system_architecture_md_205491bb("PORTFOLIO SYSTEM ARCHITECTURE.md<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+    readme_md_eeb98ce0("README.md")
+    scripts_update_graphify_py_8c83392b -->|contains| scripts_update_graphify_main_9bd74b6d
+    scripts_update_graphify_py_8c83392b -->|explains| scripts_update_graphify_rationale_1_be7a4fe6
+    scripts_update_graphify_py_8c83392b -->|synchronizes| portfolio_system_architecture_md_205491bb
+    portfolio_system_architecture_md_205491bb -->|references architecture| readme_md_eeb98ce0
+    class scripts_update_graphify_py_8c83392b module;
+    class scripts_update_graphify_main_9bd74b6d function;
+    class scripts_update_graphify_rationale_1_be7a4fe6 concept;
+    class portfolio_system_architecture_md_205491bb concept;
+    class readme_md_eeb98ce0 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>update_graphify.py</code><br><small style="color:var(--muted)">scripts/update_graphify.py</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Module file in scripts/update_graphify.py.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>main()</code><br><small style="color:var(--muted)">scripts/update_graphify.py</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>main() node in scripts/update_graphify.py.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>Automated Graphify Knowledge Graph Synchronizer. Runs on code updates to re-extr</code><br><small style="color:var(--muted)">scripts/update_graphify.py</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Design note for Automated Graphify Knowledge Graph Synchronizer. Runs on code updates to re-extr.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>PORTFOLIO_SYSTEM_ARCHITECTURE.md</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing PORTFOLIO_SYSTEM_ARCHITECTURE.md.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>README.md</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing README.md.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>scripts/update_graphify.py</code></td><td>3 nodes</td></tr>
+<tr><td><code>PORTFOLIO_SYSTEM_ARCHITECTURE.md</code></td><td>1 nodes</td></tr>
+<tr><td><code>README.md</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x1, explains x1, synchronizes x1, references architecture x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 4. Community 0 ====== -->
+<h2 id="community-0">4. Community 0</h2>
+<p>Community 0 groups implementation around portfolio, enginejs, initscrollanimations, renderprojects, mostly in js/portfolio-engine.js, README.md. This section covers 14 nodes and 18 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Community 0 (14 nodes, 18 edges)
+    subgraph community_0_js_portfolio_engine_js_0789d121["js/portfolio-engine.js"]
+        js_portfolio_engine_handleformsubmit_18844b82("handleFormSubmit()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_initscrollanimations_186ba52d("initScrollAnimations()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_openprojectmodal_92340e30("openProjectModal()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_displayprojectinmodal_2908af26("displayProjectInModal()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_renderprojects_4a6b812f("renderProjects()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_filterprojects_155c92e8("filterProjects()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_navigateproject_f61215e7("navigateProject()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_showtoast_6c91771e("showToast()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_closemobiledrawer_c0dbd335("closeMobileDrawer()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_closeprojectmodal_a19c24b8("closeProjectModal()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_copyemail_fd8e1d85("copyEmail()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_js_2a0051fc("portfolio-engine.js")
+        js_portfolio_engine_smoothscrollto_3e15a948("smoothScrollTo()<br/><small>js/portfolio-engine.js</small>")
+    end
+    heavy_clone_readme_4_interactive_project_case_st_cdf53f21("4. Interactive Project Case Studies &amp; P...<br/><small>README.md</small>")
+    js_portfolio_engine_initscrollanimations_186ba52d -->|calls| js_portfolio_engine_renderprojects_4a6b812f
+    js_portfolio_engine_renderprojects_4a6b812f -->|calls| js_portfolio_engine_filterprojects_155c92e8
+    js_portfolio_engine_openprojectmodal_92340e30 -->|calls| js_portfolio_engine_displayprojectinmodal_2908af26
+    js_portfolio_engine_displayprojectinmodal_2908af26 -->|calls| js_portfolio_engine_navigateproject_f61215e7
+    js_portfolio_engine_handleformsubmit_18844b82 -->|calls| js_portfolio_engine_showtoast_6c91771e
+    class js_portfolio_engine_handleformsubmit_18844b82 function;
+    class js_portfolio_engine_initscrollanimations_186ba52d function;
+    class js_portfolio_engine_openprojectmodal_92340e30 function;
+    class js_portfolio_engine_displayprojectinmodal_2908af26 function;
+    class js_portfolio_engine_renderprojects_4a6b812f function;
+    class js_portfolio_engine_filterprojects_155c92e8 function;
+    class js_portfolio_engine_navigateproject_f61215e7 function;
+    class js_portfolio_engine_showtoast_6c91771e function;
+    class js_portfolio_engine_closemobiledrawer_c0dbd335 function;
+    class js_portfolio_engine_closeprojectmodal_a19c24b8 function;
+    class js_portfolio_engine_copyemail_fd8e1d85 function;
+    class js_portfolio_engine_js_2a0051fc module;
+    class js_portfolio_engine_smoothscrollto_3e15a948 function;
+    class heavy_clone_readme_4_interactive_project_case_st_cdf53f21 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>portfolio-engine.js</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-class">Module</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>portfolio-engine.js node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>initScrollAnimations()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>renderProjects()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td>initScrollAnimations() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>renderProjects()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>initScrollAnimations()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><code>filterProjects()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td>renderProjects() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>filterProjects()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>renderProjects()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td>No direct outbound edge</td>
+  <td>filterProjects() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>smoothScrollTo()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>smoothScrollTo() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>openProjectModal()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>displayProjectInModal()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td>openProjectModal() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>displayProjectInModal()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>openProjectModal()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><code>navigateProject()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td>displayProjectInModal() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>navigateProject()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>displayProjectInModal()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td>No direct outbound edge</td>
+  <td>navigateProject() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>closeProjectModal()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>closeProjectModal() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>copyEmail()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>copyEmail() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>11</td>
+  <td><code>handleFormSubmit()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td><code>showToast()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td>handleFormSubmit() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>12</td>
+  <td><code>showToast()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td><code>handleFormSubmit()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td>No direct outbound edge</td>
+  <td>showToast() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>13</td>
+  <td><code>closeMobileDrawer()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>closeMobileDrawer() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>14</td>
+  <td><code>4. Interactive Project Case Studies &amp; Products Showcase</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 4. Interactive Project Case Studies &amp; Products Showcase.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>js/portfolio-engine.js</code></td><td>13 nodes</td></tr>
+<tr><td><code>README.md</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x12, calls x5, renders x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 5. Community 2 ====== -->
+<h2 id="community-2">5. Community 2</h2>
+<p>Community 2 groups implementation around readmemd, gpu, hardware, acceleration, mostly in README.md. This section covers 10 nodes and 9 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Community 2 (10 nodes, 9 edges)
+    heavy_clone_readme_features_architecture_bd86e872("✨ Features &amp; Architecture<br/><small>README.md</small>")
+    heavy_clone_readme_1_click_to_meet_badge_continu_316f73d2("1. CLICK TO MEET Badge Continuous Scrol...<br/><small>README.md</small>")
+    heavy_clone_readme_2_buttery_smooth_inertial_mom_d8e0a70c("2. Buttery Smooth Inertial Momentum Scr...<br/><small>README.md</small>")
+    heavy_clone_readme_3_gpu_hardware_acceleration_p_35bcb364("3. GPU Hardware Acceleration &amp; Paint Co...<br/><small>README.md</small>")
+    heavy_clone_readme_4_progressive_skeleton_shimme_a3bd254a("4. Progressive Skeleton Shimmer &amp; Blur-...<br/><small>README.md</small>")
+    heavy_clone_readme_5_interactive_project_case_st_4c52a9aa("5. Interactive Project Case Studies &amp; P...<br/><small>README.md</small>")
+    heavy_clone_readme_2_gpu_hardware_acceleration_p_8f18c6ab("2. GPU Hardware Acceleration &amp; Paint Co...<br/><small>README.md</small>")
+    heavy_clone_readme_3_progressive_skeleton_shimme_dd2254f1("3. Progressive Skeleton Shimmer &amp; Blur-...<br/><small>README.md</small>")
+    heavy_clone_readme_5_glittering_color_changing_l_41365491("5. Glittering &amp; Color-Changing 'LET'S T...<br/><small>README.md</small>")
+    heavy_clone_readme_6_glittering_color_changing_l_19f5ca79("6. Glittering &amp; Color-Changing 'LET'S T...<br/><small>README.md</small>")
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_1_click_to_meet_badge_continu_316f73d2
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_2_buttery_smooth_inertial_mom_d8e0a70c
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_3_gpu_hardware_acceleration_p_35bcb364
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_4_progressive_skeleton_shimme_a3bd254a
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_5_interactive_project_case_st_4c52a9aa
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_6_glittering_color_changing_l_19f5ca79
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_2_gpu_hardware_acceleration_p_8f18c6ab
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_3_progressive_skeleton_shimme_dd2254f1
+    heavy_clone_readme_features_architecture_bd86e872 -->|contains| heavy_clone_readme_5_glittering_color_changing_l_41365491
+    class heavy_clone_readme_features_architecture_bd86e872 concept;
+    class heavy_clone_readme_1_click_to_meet_badge_continu_316f73d2 concept;
+    class heavy_clone_readme_2_buttery_smooth_inertial_mom_d8e0a70c concept;
+    class heavy_clone_readme_3_gpu_hardware_acceleration_p_35bcb364 concept;
+    class heavy_clone_readme_4_progressive_skeleton_shimme_a3bd254a concept;
+    class heavy_clone_readme_5_interactive_project_case_st_4c52a9aa concept;
+    class heavy_clone_readme_2_gpu_hardware_acceleration_p_8f18c6ab concept;
+    class heavy_clone_readme_3_progressive_skeleton_shimme_dd2254f1 concept;
+    class heavy_clone_readme_5_glittering_color_changing_l_41365491 concept;
+    class heavy_clone_readme_6_glittering_color_changing_l_19f5ca79 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>✨ Features &amp; Architecture</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing ✨ Features &amp; Architecture.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>1. CLICK TO MEET Badge Continuous Scroll Physics</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 1. CLICK TO MEET Badge Continuous Scroll Physics.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>2. Buttery Smooth Inertial Momentum Scrolling</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2. Buttery Smooth Inertial Momentum Scrolling.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>3. GPU Hardware Acceleration &amp; Paint Containment</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 3. GPU Hardware Acceleration &amp; Paint Containment.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>4. Progressive Skeleton Shimmer &amp; Blur-Up Image Pipeline</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 4. Progressive Skeleton Shimmer &amp; Blur-Up Image Pipeline.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>5. Interactive Project Case Studies &amp; Products Showcase</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 5. Interactive Project Case Studies &amp; Products Showcase.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>6. Glittering &amp; Color-Changing &quot;LET&#x27;S TALK ✨&quot; Button</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 6. Glittering &amp; Color-Changing &quot;LET&#x27;S TALK ✨&quot; Button.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>2. GPU Hardware Acceleration &amp; Paint Containment</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 2. GPU Hardware Acceleration &amp; Paint Containment.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>3. Progressive Skeleton Shimmer &amp; Blur-Up Image Pipeline</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 3. Progressive Skeleton Shimmer &amp; Blur-Up Image Pipeline.</td>
+</tr>
+<tr>
+  <td>10</td>
+  <td><code>5. Glittering &amp; Color-Changing &quot;LET&#x27;S TALK ✨&quot; Button</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 5. Glittering &amp; Color-Changing &quot;LET&#x27;S TALK ✨&quot; Button.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>README.md</code></td><td>10 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x9. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<!-- ====== 6. Community 8 ====== -->
+<h2 id="community-8">6. Community 8</h2>
+<p>Community 8 groups implementation around portfolio, subsystem, system, architecturemd, mostly in PORTFOLIO_SYSTEM_ARCHITECTURE.md, js/portfolio-engine.js, README.md. This section covers 9 nodes and 8 internal edges; the diagram shows only representative relationships to stay readable.</p>
+
+<div class="mermaid">
+%%{init: {"theme": "dark", "themeVariables": {"fontSize": "15.0px", "fontFamily": "Segoe UI, system-ui, sans-serif", "primaryColor": "#1e293b", "primaryTextColor": "#e2e8f0", "primaryBorderColor": "#38bdf8", "secondaryColor": "#0f172a", "tertiaryColor": "#334155", "lineColor": "#64748b", "textColor": "#e2e8f0"}, "flowchart": {"htmlLabels": true, "curve": "basis", "nodeSpacing": 48, "rankSpacing": 64, "padding": 14, "diagramPadding": 10, "useMaxWidth": true}}}%%
+flowchart LR
+    %% Section: Community 8 (9 nodes, 8 edges)
+    subgraph community_8_PORTFOLIO_SYSTEM_ARCHITECTURE_md_f515dc1a["PORTFOLIO_SYSTEM_ARCHITECTURE.md"]
+        heavy_clone_portfolio_system_architecture_3_subs_81f93b32("3. Subsystem Architecture Deep-Dives<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_subsys_9acd947f("Subsystem 1: CLICK TO MEET Badge Contin...<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_subsys_e64b0792("Subsystem 2: 120Hz Hardware Acceleratio...<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_subsys_87c9dfa4("Subsystem 3: Progressive Skeleton Shimm...<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+        heavy_clone_portfolio_system_architecture_subsys_080f3b02("Subsystem 4: Batch Layout Injection &amp; M...<br/><small>PORTFOLIO_SYSTEM_ARCHITECTURE.md</small>")
+    end
+    subgraph community_8_js_portfolio_engine_js_8818edc1["js/portfolio-engine.js"]
+        js_portfolio_engine_kimiscroller_2bce47d5("kimiScroller<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_initclickbadgescroll_91aa2c27("initClickBadgeScroll()<br/><small>js/portfolio-engine.js</small>")
+        js_portfolio_engine_onproductimageloaded_5ff17ff0("onProductImageLoaded()<br/><small>js/portfolio-engine.js</small>")
+    end
+    heavy_clone_readme_1_buttery_smooth_inertial_mom_2258bcd5("1. Buttery Smooth Inertial Momentum Scr...<br/><small>README.md</small>")
+    heavy_clone_portfolio_system_architecture_3_subs_81f93b32 -->|contains| heavy_clone_portfolio_system_architecture_subsys_9acd947f
+    heavy_clone_portfolio_system_architecture_3_subs_81f93b32 -->|contains| heavy_clone_portfolio_system_architecture_subsys_e64b0792
+    heavy_clone_portfolio_system_architecture_3_subs_81f93b32 -->|contains| heavy_clone_portfolio_system_architecture_subsys_87c9dfa4
+    heavy_clone_portfolio_system_architecture_3_subs_81f93b32 -->|contains| heavy_clone_portfolio_system_architecture_subsys_080f3b02
+    js_portfolio_engine_kimiscroller_2bce47d5 -->|implements| heavy_clone_portfolio_system_architecture_subsys_e64b0792
+    js_portfolio_engine_kimiscroller_2bce47d5 -->|executes| heavy_clone_readme_1_buttery_smooth_inertial_mom_2258bcd5
+    js_portfolio_engine_initclickbadgescroll_91aa2c27 -->|implements| heavy_clone_portfolio_system_architecture_subsys_9acd947f
+    js_portfolio_engine_onproductimageloaded_5ff17ff0 -->|implements| heavy_clone_portfolio_system_architecture_subsys_87c9dfa4
+    class heavy_clone_portfolio_system_architecture_3_subs_81f93b32 concept;
+    class heavy_clone_portfolio_system_architecture_subsys_9acd947f concept;
+    class heavy_clone_portfolio_system_architecture_subsys_e64b0792 concept;
+    class heavy_clone_portfolio_system_architecture_subsys_87c9dfa4 concept;
+    class heavy_clone_portfolio_system_architecture_subsys_080f3b02 concept;
+    class js_portfolio_engine_kimiscroller_2bce47d5 function;
+    class js_portfolio_engine_initclickbadgescroll_91aa2c27 entry;
+    class js_portfolio_engine_onproductimageloaded_5ff17ff0 function;
+    class heavy_clone_readme_1_buttery_smooth_inertial_mom_2258bcd5 concept;
+    classDef entry fill:#422006,stroke:#fbbf24,color:#fde68a,stroke-width:1px;
+    classDef api fill:#450a0a,stroke:#f87171,color:#fee2e2,stroke-width:1px;
+    classDef async fill:#2e1065,stroke:#a78bfa,color:#ede9fe,stroke-width:1px;
+    classDef klass fill:#064e3b,stroke:#34d399,color:#d1fae5,stroke-width:1px;
+    classDef ui fill:#831843,stroke:#f472b6,color:#fce7f3,stroke-width:1px;
+    classDef module fill:#172554,stroke:#60a5fa,color:#dbeafe,stroke-width:1px;
+    classDef test fill:#3f3f46,stroke:#a1a1aa,color:#f4f4f5,stroke-width:1px;
+    classDef concept fill:#292524,stroke:#a8a29e,color:#fafaf9,stroke-dasharray:4 3;
+    classDef function fill:#0f172a,stroke:#38bdf8,color:#e0f2fe,stroke-width:1px;
+</div>
+
+<h3>Call Details</h3>
+<table class="call-table">
+<tr>
+  <th style="width:5%">#</th>
+  <th style="width:28%">Node</th>
+  <th style="width:10%">Type</th>
+  <th style="width:17%">Caller</th>
+  <th style="width:20%">Callees</th>
+  <th style="width:20%">Description</th>
+</tr>
+<tr>
+  <td>1</td>
+  <td><code>kimiScroller</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>kimiScroller node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>2</td>
+  <td><code>initClickBadgeScroll()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-cmd">Entry</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>initClickBadgeScroll() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>3</td>
+  <td><code>onProductImageLoaded()</code><br><small style="color:var(--muted)">js/portfolio-engine.js</small></td>
+  <td><span class="tag tag-func">Function</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>onProductImageLoaded() node in js/portfolio-engine.js.</td>
+</tr>
+<tr>
+  <td>4</td>
+  <td><code>3. Subsystem Architecture Deep-Dives</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 3. Subsystem Architecture Deep-Dives.</td>
+</tr>
+<tr>
+  <td>5</td>
+  <td><code>Subsystem 1: CLICK TO MEET Badge Continuous Scroll Physics</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Subsystem 1: CLICK TO MEET Badge Continuous Scroll Physics.</td>
+</tr>
+<tr>
+  <td>6</td>
+  <td><code>Subsystem 2: 120Hz Hardware Acceleration &amp; Paint Containment</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Subsystem 2: 120Hz Hardware Acceleration &amp; Paint Containment.</td>
+</tr>
+<tr>
+  <td>7</td>
+  <td><code>Subsystem 3: Progressive Skeleton Shimmer &amp; Blur-Up Pipeline</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Subsystem 3: Progressive Skeleton Shimmer &amp; Blur-Up Pipeline.</td>
+</tr>
+<tr>
+  <td>8</td>
+  <td><code>Subsystem 4: Batch Layout Injection &amp; Modal Case Study Engine</code><br><small style="color:var(--muted)">PORTFOLIO_SYSTEM_ARCHITECTURE.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing Subsystem 4: Batch Layout Injection &amp; Modal Case Study Engine.</td>
+</tr>
+<tr>
+  <td>9</td>
+  <td><code>1. Buttery Smooth Inertial Momentum Scrolling</code><br><small style="color:var(--muted)">README.md</small></td>
+  <td><span class="tag tag-func">Concept</span></td>
+  <td>External entry / no inbound edge</td>
+  <td>No direct outbound edge</td>
+  <td>Documentation node describing 1. Buttery Smooth Inertial Momentum Scrolling.</td>
+</tr>
+</table>
+
+<div class="grid">
+  <div class="card">
+    <h4>Key Files</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><th>File</th><th>Coverage</th></tr>
+      <tr><td><code>PORTFOLIO_SYSTEM_ARCHITECTURE.md</code></td><td>5 nodes</td></tr>
+<tr><td><code>js/portfolio-engine.js</code></td><td>3 nodes</td></tr>
+<tr><td><code>README.md</code></td><td>1 nodes</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Design Notes</h4>
+    <p>This section comes from graphify community clustering. Relationship summary: contains x4, implements x3, executes x1. The diagram prioritizes high-confidence calls or usage relationships; the table keeps the broader node inventory.</p>
+  </div>
+</div>
+<hr>
+
+<h2 id="stats">Project Statistics</h2>
+
+<div class="grid">
+  <div class="card">
+    <h4>Graph</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>Nodes</td><td>60</td></tr>
+      <tr><td>Edges</td><td>71</td></tr>
+      <tr><td>Hyperedges</td><td>0</td></tr>
+      <tr><td>Communities</td><td>6</td></tr>
+      <tr><td>Documented Sections</td><td>5</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <h4>Edge Confidence</h4>
+    <table style="width:100%;font-size:0.85rem;">
+      <tr><td>EXTRACTED</td><td>62</td></tr>
+      <tr><td>INFERRED</td><td>9</td></tr>
+      <tr><td>AMBIGUOUS</td><td>0</td></tr>
+    </table>
+  </div>
+</div>
+
+<div style="text-align:center; padding:40px 0; color: var(--muted); font-size:0.9rem;">
+  <p>heavy-clone — Architecture Documentation</p>
+  <p>Generated: 2026-09-21 12:08 UTC · graphify callflow-html</p>
+</div>
+
+</div><!-- .container -->
+
+<script>
+(function () {
+  const mermaidConfig = {
+    startOnLoad: false,
+    theme: 'dark',
+    securityLevel: 'loose',
+    flowchart: { htmlLabels: true, useMaxWidth: true },
+    themeVariables: {
+      primaryColor: '#1e293b',
+      primaryTextColor: '#e2e8f0',
+      primaryBorderColor: '#38bdf8',
+      secondaryColor: '#0f172a',
+      tertiaryColor: '#334155',
+      lineColor: '#64748b',
+      textColor: '#e2e8f0',
+    }
+  };
+
+  mermaid.initialize(mermaidConfig);
+
+  function clamp(value, min, max) {
+    return Math.min(max, Math.max(min, value));
+  }
+
+  function enhanceMermaidDiagrams() {
+    document.querySelectorAll('.mermaid').forEach((container) => {
+      if (container.dataset.zoomReady === 'true') return;
+      const svg = container.querySelector('svg');
+      if (!svg) return;
+
+      container.dataset.zoomReady = 'true';
+      container.classList.add('is-enhanced');
+
+      const viewport = document.createElement('div');
+      viewport.className = 'mermaid-viewport';
+      svg.parentNode.insertBefore(viewport, svg);
+      viewport.appendChild(svg);
+
+      const toolbar = document.createElement('div');
+      toolbar.className = 'mermaid-toolbar';
+      toolbar.innerHTML = [
+        '<button type="button" data-action="zoom-out" title="Zoom out">-</button>',
+        '<span class="zoom-level" data-role="level">100%</span>',
+        '<button type="button" data-action="zoom-in" title="Zoom in">+</button>',
+        '<button type="button" data-action="fit" title="Fit width">Fit</button>',
+        '<button type="button" data-action="reset" title="Reset view">Reset</button>'
+      ].join('');
+      container.insertBefore(toolbar, viewport);
+
+      const state = { scale: 1, x: 0, y: 0, dragging: false, startX: 0, startY: 0, originX: 0, originY: 0 };
+      const level = toolbar.querySelector('[data-role="level"]');
+
+      function applyTransform() {
+        svg.style.transform = `translate(${state.x}px, ${state.y}px) scale(${state.scale})`;
+        level.textContent = `${Math.round(state.scale * 100)}%`;
+      }
+
+      function zoomBy(delta) {
+        state.scale = clamp(state.scale + delta, 0.25, 3);
+        applyTransform();
+      }
+
+      function reset() {
+        state.scale = 1;
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      function fitWidth() {
+        const rawWidth = svg.viewBox && svg.viewBox.baseVal && svg.viewBox.baseVal.width
+          ? svg.viewBox.baseVal.width
+          : svg.getBoundingClientRect().width / state.scale;
+        if (!rawWidth) {
+          reset();
+          return;
+        }
+        state.scale = clamp((viewport.clientWidth - 48) / rawWidth, 0.25, 1.4);
+        state.x = 0;
+        state.y = 0;
+        applyTransform();
+      }
+
+      toolbar.addEventListener('click', (event) => {
+        const button = event.target.closest('button[data-action]');
+        if (!button) return;
+        const action = button.dataset.action;
+        if (action === 'zoom-in') zoomBy(0.15);
+        if (action === 'zoom-out') zoomBy(-0.15);
+        if (action === 'fit') fitWidth();
+        if (action === 'reset') reset();
+      });
+
+      viewport.addEventListener('wheel', (event) => {
+        if (!event.ctrlKey && !event.metaKey) return;
+        event.preventDefault();
+        zoomBy(event.deltaY < 0 ? 0.1 : -0.1);
+      }, { passive: false });
+
+      viewport.addEventListener('pointerdown', (event) => {
+        if (event.button !== 0) return;
+        state.dragging = true;
+        state.startX = event.clientX;
+        state.startY = event.clientY;
+        state.originX = state.x;
+        state.originY = state.y;
+        viewport.classList.add('is-dragging');
+        viewport.setPointerCapture(event.pointerId);
+      });
+
+      viewport.addEventListener('pointermove', (event) => {
+        if (!state.dragging) return;
+        state.x = state.originX + event.clientX - state.startX;
+        state.y = state.originY + event.clientY - state.startY;
+        applyTransform();
+      });
+
+      function endDrag(event) {
+        if (!state.dragging) return;
+        state.dragging = false;
+        viewport.classList.remove('is-dragging');
+        if (viewport.hasPointerCapture(event.pointerId)) {
+          viewport.releasePointerCapture(event.pointerId);
+        }
+      }
+
+      viewport.addEventListener('pointerup', endDrag);
+      viewport.addEventListener('pointercancel', endDrag);
+      applyTransform();
+    });
+  }
+
+  function renderMermaid() {
+    const result = mermaid.run
+      ? mermaid.run({ querySelector: '.mermaid' })
+      : Promise.resolve();
+    Promise.resolve(result)
+      .then(enhanceMermaidDiagrams)
+      .catch((error) => {
+        console.error('Mermaid render failed:', error);
+        enhanceMermaidDiagrams();
+      });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', renderMermaid);
+  } else {
+    renderMermaid();
+  }
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Graphify ignore file — exclude vendor bundles and raw assets from graph indexing
+js/c-*.js
+js/hls.min.js
+js/viewer.js
+push-big.ps1
+push_in_batches.py
+scratch/
+snippets/
+assets/
+fonts/
+*.png
+*.webp
+*.jpg
+*.jpeg
+*.svg
+__pycache__/

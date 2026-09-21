@@ -11,9 +11,15 @@ Thumbs.db
 rendered_raw.html
 server_raw.html
 snapshot_live.html
+# Scripts
 *.py
 *.ps1
+!scripts/
+!scripts/*.py
 snippets/
+
+# Graphify cache
+graphify-out/cache/
 
 # Heavy media assets
 !assets/
