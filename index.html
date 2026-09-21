@@ -8,6 +8,11 @@
   <meta name="author" content="Himanshi Parihar">
 
 
+  <!-- CDN Preconnect & High-Priority Logo Preload (Instant Header Render) -->
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="preload" as="image" href="https://cdn.jsdelivr.net/gh/roshan-pixel/KIMI-K3-POERTFOLIO@main/assets/himanshi-portfolio-logo.webp" type="image/webp" fetchpriority="high">
+
   <!-- Local Fonts -->
   <link rel="stylesheet" href="css/inter.css">
   <link rel="icon" href="https://cdn.jsdelivr.net/gh/roshan-pixel/KIMI-K3-POERTFOLIO@main/assets/poster.jpg">
@@ -118,6 +123,12 @@
       user-select: none;
       white-space: nowrap;
       flex-shrink: 0;
+    }
+
+    .brand-logo-picture {
+      display: inline-flex;
+      align-items: center;
+      line-height: 0;
     }
 
     .brand-logo-img {
@@ -1616,13 +1627,20 @@
   <header class="site-header">
     <div class="header-left">
       <a href="#hero" class="brand-lockup" aria-label="Himanshi Portfolio" onclick="smoothScrollTo('hero'); return false;">
-        <img
-          src="assets/himanshi-portfolio-logo.png"
-          alt="Himanshi Portfolio"
-          class="brand-logo-img"
-          width="180"
-          height="45"
-        />
+        <picture class="brand-logo-picture">
+          <source type="image/webp" srcset="https://cdn.jsdelivr.net/gh/roshan-pixel/KIMI-K3-POERTFOLIO@main/assets/himanshi-portfolio-logo.webp">
+          <img
+            src="https://cdn.jsdelivr.net/gh/roshan-pixel/KIMI-K3-POERTFOLIO@main/assets/himanshi-portfolio-logo.png"
+            alt="Himanshi Portfolio"
+            class="brand-logo-img"
+            width="180"
+            height="44"
+            loading="eager"
+            decoding="async"
+            fetchpriority="high"
+            onerror="this.onerror=null; this.src='assets/himanshi-portfolio-logo.png';"
+          />
+        </picture>
 
       </a>
     </div>
