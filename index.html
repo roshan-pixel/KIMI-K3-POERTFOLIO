@@ -7,6 +7,7 @@
   <meta name="description" content="Portfolio of Himanshi Parihar, Lead Brand & Graphic Designer at Heavy Branding Studio. Creating brands with heft. Powered by Kimi K3.">
   <meta name="author" content="Himanshi Parihar">
 
+
   <!-- Local Fonts -->
   <link rel="stylesheet" href="css/inter.css">
   <link rel="icon" href="https://cdn.jsdelivr.net/gh/roshan-pixel/KIMI-K3-POERTFOLIO@main/assets/poster.jpg">
@@ -103,23 +104,33 @@
       gap: 12px;
     }
 
-    .logo-container {
-      width: 220px;
-      display: flex;
+    .brand-lockup {
+      display: inline-flex;
       align-items: center;
+      gap: 12px;
+      text-decoration: none;
       cursor: pointer;
+      user-select: none;
+      white-space: nowrap;
+      flex-shrink: 0;
     }
 
-    .logo-container svg {
-      width: 100%;
-      height: auto;
-      fill: #faf8f5;
-      transition: fill 0.25s ease;
+    .brand-logo-img {
+      height: 44px;
+      width: auto;
+      max-width: 220px;
+      object-fit: contain;
+      display: block;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), filter 0.25s ease;
     }
 
-    .logo-container:hover svg {
-      fill: var(--accent-rose);
+    .brand-lockup:hover .brand-logo-img {
+      transform: scale(1.02);
+      filter: drop-shadow(0 0 16px rgba(255, 112, 166, 0.45));
     }
+
+
+
 
     .designer-tag {
       font-size: 10px;
@@ -1357,13 +1368,17 @@
       .header-left {
         gap: 8px;
       }
-      .logo-container {
-        width: 160px;
+      .brand-lockup {
+        gap: 8px;
+        white-space: nowrap;
+        flex-shrink: 0;
+      }
+      .brand-logo-img {
+        height: 36px;
+        max-width: 160px;
       }
       .designer-tag {
-        font-size: 9px;
-        letter-spacing: 0.8px;
-        padding: 2px 6px;
+        display: none;
       }
       .ai-badge {
         display: none; /* Hide on mobile to ensure zero crowding */
@@ -1592,25 +1607,15 @@
   <!-- FIXED GLASS HEADER (CLAUDE RESPONSIVE) -->
   <header class="site-header">
     <div class="header-left">
-      <a href="#hero" class="logo-container" aria-label="Heavy Home" onclick="smoothScrollTo('hero'); return false;">
-        <svg viewBox="0 0 320 64" xmlns="http://www.w3.org/2000/svg" id="logo-wordmark" aria-label="Himanshi Portfolio">
-          <defs>
-            <style>
-              .lw-text {
-                fill: #fffef4;
-                transition: fill 0.3s ease-in-out;
-                font-family: 'Arial Narrow', 'Impact', 'Haettenschweiler', 'Arial Unicode MS', sans-serif;
-                font-weight: 900;
-                letter-spacing: -0.5px;
-              }
-              #logo-wordmark:hover .lw-text {
-                fill: #FFA2C0;
-              }
-            </style>
-          </defs>
-          <text class="lw-text" x="0" y="30" font-size="32" text-anchor="start">HIMANSHI</text>
-          <text class="lw-text" x="2" y="60" font-size="28" text-anchor="start" letter-spacing="3px">PORTFOLIO</text>
-        </svg>
+      <a href="#hero" class="brand-lockup" aria-label="Himanshi Portfolio" onclick="smoothScrollTo('hero'); return false;">
+        <img
+          src="assets/himanshi-portfolio-logo.png"
+          alt="Himanshi Portfolio"
+          class="brand-logo-img"
+          width="180"
+          height="45"
+        />
+
       </a>
     </div>
 
@@ -3721,6 +3726,7 @@
         const pId = window.location.hash.replace('#project/', '');
         openProjectModal(pId);
       }
+
     });
   </script>
 </body>
