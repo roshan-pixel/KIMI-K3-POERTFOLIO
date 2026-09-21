@@ -3691,11 +3691,11 @@
         const targetViewportLeft = floatLeft;
         const targetViewportTop = window.innerHeight - floatBottom - badgeHeight;
 
-        // Smooth transition over initial scroll distance (continuous float down)
-        const transDist = isMobile ? 260 : 360;
+        // Gentle, calm transition distance matched to natural scroll pacing (no fast initial rush)
+        const transDist = isMobile ? 700 : 850;
         const p = Math.min(Math.max(scrollY / transDist, 0), 1);
-        // Smooth ease-in-out S-curve
-        const ease = p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+        // Smooth sine ease starts gently and matches scroll pacing
+        const ease = -(Math.cos(Math.PI * p) - 1) / 2;
 
         const curLeft = initialViewportLeft + (targetViewportLeft - initialViewportLeft) * ease;
         const curTop = initialViewportTop + (targetViewportTop - initialViewportTop) * ease;
