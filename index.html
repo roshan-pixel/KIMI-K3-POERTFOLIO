@@ -441,7 +441,7 @@
     }
 
     /* =======================================================
-       CLICK TO MEET BADGE: REAL-TIME SCROLL PHYSICS & HOVER
+       CLICK TO MEET BADGE: CONTINUOUS SCROLL PHYSICS & HOVER
        ======================================================= */
     .click-badge {
       position: absolute;
@@ -451,35 +451,18 @@
       cursor: pointer;
       z-index: 100;
       filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.75));
-      transform: rotate(var(--scroll-rot, 0deg));
+      transform: translateY(var(--badge-y, 0px));
       transform-origin: center center;
-      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
-                  filter 0.3s ease,
-                  opacity 0.3s ease;
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  filter 0.25s ease;
       will-change: transform, filter;
       user-select: none;
       -webkit-user-select: none;
     }
 
-    /* Fixed floating mode once scrolled past the hero */
-    .click-badge.floating-badge {
-      position: fixed;
-      bottom: 28px;
-      left: 28px;
-      z-index: 9995;
-      filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 16px rgba(255, 162, 192, 0.4));
-    }
-
-    /* Gentle fade when reading the About section so it never obscures text */
-    .click-badge.in-about {
-      opacity: 0.18;
-      pointer-events: none;
-      transform: scale(0.8) rotate(var(--scroll-rot, 0deg));
-    }
-
-    /* PLAYFUL HIGH-FASHION HOVER STATE */
+    /* PLAYFUL HIGH-FASHION HOVER STATE (STRAIGHT ONLY) */
     .click-badge:hover {
-      transform: scale(1.18) rotate(calc(var(--scroll-rot, 0deg) - 8deg)) !important;
+      transform: translateY(var(--badge-y, 0px)) scale(1.15) !important;
       filter: drop-shadow(0 0 30px rgba(255, 162, 192, 0.95)) drop-shadow(0 16px 32px rgba(0, 0, 0, 0.95)) !important;
     }
 
@@ -488,8 +471,12 @@
       transition: fill 0.25s ease;
     }
 
+    .click-badge text {
+      pointer-events: none;
+    }
+
     .click-badge:active {
-      transform: scale(0.92) rotate(var(--scroll-rot, 0deg)) !important;
+      transform: translateY(var(--badge-y, 0px)) scale(0.95) !important;
     }
 
     /* CULTURE TICKER */
@@ -1597,12 +1584,8 @@
         bottom: 12px;
         left: 12px;
       }
-      .click-badge.floating-badge {
-        bottom: 20px;
-        left: 16px;
-      }
       .click-badge:hover {
-        transform: scale(1.12) rotate(calc(var(--scroll-rot, 0deg) - 6deg)) !important;
+        transform: translateY(var(--badge-y, 0px)) scale(1.12) !important;
       }
       
       /* Marquee ticker on mobile */
@@ -3669,12 +3652,10 @@
     }
 
     /* =======================================================
-       CLICK TO MEET BADGE: INTERACTIVE SCROLL TRACKER & ROTATION
+       CLICK TO MEET BADGE: CONTINUOUS SCROLL PHYSICS
        ======================================================= */
     function initClickBadgeScroll() {
       const badge = document.getElementById('clickBadge');
-      const heroContainer = document.querySelector('.hero-media-container');
-      const aboutSection = document.getElementById('about');
       if (!badge) return;
 
       let isTicking = false;
@@ -3682,25 +3663,9 @@
       function updateBadge() {
         const scrollY = window.pageYOffset || document.documentElement.scrollTop;
         
-        // Calculate transition threshold: when hero poster scrolls out of view
-        const heroBottom = heroContainer ? (heroContainer.offsetTop + heroContainer.offsetHeight - 140) : 420;
-        const shouldFloat = scrollY > heroBottom;
-
-        badge.classList.toggle('floating-badge', shouldFloat);
-
-        // Check if currently inside About section to gently dim
-        let inAbout = false;
-        if (aboutSection) {
-          const rect = aboutSection.getBoundingClientRect();
-          if (rect.top <= window.innerHeight * 0.6 && rect.bottom >= window.innerHeight * 0.15) {
-            inAbout = true;
-          }
-        }
-        badge.classList.toggle('in-about', inAbout);
-
-        // Dynamic scroll rotation physics
-        const rot = (scrollY * 0.25) % 360;
-        badge.style.setProperty('--scroll-rot', `${rot.toFixed(1)}deg`);
+        // Continuous, subtle parallax float on the poster (zero jumps, zero rotation)
+        const y = Math.min(scrollY * 0.16, 100);
+        badge.style.setProperty('--badge-y', `${y.toFixed(1)}px`);
 
         isTicking = false;
       }
