@@ -57,11 +57,11 @@
       background-color: var(--bg-base) !important;
       color: var(--text-primary) !important;
       font-family: var(--font-sans);
-      overflow-x: hidden !important;
+      overflow-x: clip;
       width: 100%;
       height: auto !important;
       min-height: 100% !important;
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
       -webkit-overflow-scrolling: touch;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
@@ -71,13 +71,12 @@
       background-color: var(--bg-base) !important;
       color: var(--text-primary) !important;
       font-family: var(--font-sans);
-      overflow-x: hidden !important;
-      overflow-y: visible !important;
+      overflow-x: clip;
+      overflow-y: visible;
       min-height: 100vh !important;
       width: 100%;
       position: relative;
       -webkit-overflow-scrolling: touch;
-      touch-action: pan-y;
     }
 
     ::selection {
@@ -413,11 +412,16 @@
       line-height: 1.6;
     }
 
-    .hero-media-wrapper {
+    .hero-media-container {
       position: relative;
       width: 100%;
       max-width: 1140px;
       margin: 0 auto 30px;
+    }
+
+    .hero-media-wrapper {
+      position: relative;
+      width: 100%;
       border-radius: 18px;
       overflow: hidden;
       background: #09090b;
@@ -436,25 +440,56 @@
       transform: scale(1.015);
     }
 
+    /* =======================================================
+       CLICK TO MEET BADGE: REAL-TIME SCROLL PHYSICS & HOVER
+       ======================================================= */
     .click-badge {
       position: absolute;
       bottom: 24px;
       left: 24px;
       width: 125px;
       cursor: pointer;
-      animation: floatBadge 3s ease-in-out infinite;
-      filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.6));
-      transition: transform 0.2s ease;
-      z-index: 10;
+      z-index: 100;
+      filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.75));
+      transform: rotate(var(--scroll-rot, 0deg));
+      transform-origin: center center;
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  filter 0.3s ease,
+                  opacity 0.3s ease;
+      will-change: transform, filter;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Fixed floating mode once scrolled past the hero */
+    .click-badge.floating-badge {
+      position: fixed;
+      bottom: 28px;
+      left: 28px;
+      z-index: 9995;
+      filter: drop-shadow(0 14px 30px rgba(0, 0, 0, 0.85)) drop-shadow(0 0 16px rgba(255, 162, 192, 0.4));
+    }
+
+    /* Gentle fade when reading the About section so it never obscures text */
+    .click-badge.in-about {
+      opacity: 0.18;
+      pointer-events: none;
+      transform: scale(0.8) rotate(var(--scroll-rot, 0deg));
+    }
+
+    /* PLAYFUL HIGH-FASHION HOVER STATE */
+    .click-badge:hover {
+      transform: scale(1.18) rotate(calc(var(--scroll-rot, 0deg) - 8deg)) !important;
+      filter: drop-shadow(0 0 30px rgba(255, 162, 192, 0.95)) drop-shadow(0 16px 32px rgba(0, 0, 0, 0.95)) !important;
+    }
+
+    .click-badge:hover path {
+      fill: #FFB3CC;
+      transition: fill 0.25s ease;
     }
 
     .click-badge:active {
-      transform: scale(0.95);
-    }
-
-    @keyframes floatBadge {
-      0%, 100% { transform: translateY(0) rotate(0deg); }
-      50% { transform: translateY(-6px) rotate(2deg); }
+      transform: scale(0.92) rotate(var(--scroll-rot, 0deg)) !important;
     }
 
     /* CULTURE TICKER */
@@ -1550,14 +1585,24 @@
         line-height: 1.55;
         margin-bottom: 24px;
       }
-      .hero-media-wrapper {
-        border-radius: 14px;
+      .hero-media-container {
         margin-bottom: 20px;
       }
+      .hero-media-wrapper {
+        border-radius: 14px;
+        margin-bottom: 0;
+      }
       .click-badge {
-        width: 80px;
-        bottom: 10px;
-        left: 10px;
+        width: 82px;
+        bottom: 12px;
+        left: 12px;
+      }
+      .click-badge.floating-badge {
+        bottom: 20px;
+        left: 16px;
+      }
+      .click-badge:hover {
+        transform: scale(1.12) rotate(calc(var(--scroll-rot, 0deg) - 6deg)) !important;
       }
       
       /* Marquee ticker on mobile */
@@ -1827,9 +1872,11 @@
         Soft power. Sharp vision. Unmistakable presence. An independent brand architecture & tactile visual design studio helmed by <strong>Himanshi Parihar</strong>.
       </p>
 
-      <div class="hero-media-wrapper">
-        <img src="https://cdn.jsdelivr.net/gh/roshan-pixel/KIMI-K3-POERTFOLIO@main/assets/poster.jpg" alt="Heavy 3D Inflatable Marquee" class="hero-poster">
-        <svg class="click-badge" viewBox="0 0 162 162" xmlns="http://www.w3.org/2000/svg" onclick="smoothScrollTo('about')">
+      <div class="hero-media-container">
+        <div class="hero-media-wrapper">
+          <img src="https://cdn.jsdelivr.net/gh/roshan-pixel/KIMI-K3-POERTFOLIO@main/assets/poster.jpg" alt="Heavy 3D Inflatable Marquee" class="hero-poster">
+        </div>
+        <svg class="click-badge" id="clickBadge" viewBox="0 0 162 162" xmlns="http://www.w3.org/2000/svg" onclick="smoothScrollTo('about')" title="Click to meet Himanshi Parihar">
           <path d="M81 0L97 22L124 16L133 42L159 48L156 75L178 91L162 113L174 139L148 147L146 174L119 171L107 195L81 182L57 198L44 174L17 178L14 151L-11 144L2 118L-15 97L5 79L3 52L29 45L37 19L64 24Z" fill="#FFA2C0"/>
           <text x="81" y="70" text-anchor="middle" font-family="'Inter', sans-serif" font-weight="900" font-size="16" fill="#000">CLICK TO</text>
           <text x="81" y="94" text-anchor="middle" font-family="'Inter', sans-serif" font-weight="900" font-size="22" fill="#000">MEET</text>
@@ -3587,138 +3634,26 @@
 
     
     /* =======================================================
-       KIMI K3 BUTTERY SMOOTH INERTIAL SCROLL & RENDER PIPELINE
+       KIMI K3 HIGH-PERFORMANCE NATIVE GPU SCROLL & ANCHOR ENGINE
        ======================================================= */
-    class KimiSmoothScroll {
-      constructor(options = {}) {
-        this.lerp = options.lerp || 0.082; // Luxury heavy damping factor
-        this.wheelMultiplier = options.wheelMultiplier || 0.95;
-        this.touchMultiplier = options.touchMultiplier || 1.6;
-
-        this.current = window.pageYOffset || 0;
-        this.targetY = this.current;
-        this.maxScroll = this.getMaxScroll();
-        this.velocity = 0;
-        this.isEnabled = true;
-        this.isModalOpen = false;
-        this.rafId = null;
-
-        this.touchStartY = 0;
-        this.touchLastY = 0;
-
-        this.onWheel = this.onWheel.bind(this);
-        this.onTouchStart = this.onTouchStart.bind(this);
-        this.onTouchMove = this.onTouchMove.bind(this);
-        this.onTouchEnd = this.onTouchEnd.bind(this);
-        this.onResize = this.onResize.bind(this);
-        this.update = this.update.bind(this);
-
-        this.init();
-      }
-
-      init() {
-        // Detect touch devices (phones, tablets, iPads)
-        this.isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
-
-        // On mobile/touch devices, NEVER hijack touch scrolling!
-        // Native OS hardware compositor provides buttery 120Hz/60Hz acceleration with zero touch lag.
-        if (this.isTouch) {
-          this.isEnabled = false;
-          return;
-        }
-
-        this.maxScroll = this.getMaxScroll();
-        this.current = window.pageYOffset || 0;
-        this.targetY = this.current;
-
-        window.addEventListener('wheel', this.onWheel, { passive: false });
-        window.addEventListener('resize', this.onResize, { passive: true });
-
-        // Start 60fps/120fps RAF loop on desktop
-        this.rafId = requestAnimationFrame(this.update);
-      }
-
-      getMaxScroll() {
-        return Math.max(
-          0,
-          document.documentElement.scrollHeight - window.innerHeight
-        );
-      }
-
-      onWheel(e) {
-        if (!this.isEnabled || this.isModalOpen) return;
-        
-        // Allow native scroll if target is inside an overflowing container (like open modal)
-        if (e.target.closest('.project-modal')) return;
-
-        e.preventDefault();
-        const delta = e.deltaY * this.wheelMultiplier;
-        this.targetY = Math.max(0, Math.min(this.getMaxScroll(), this.targetY + delta));
-      }
-
-      onTouchStart(e) {
-        if (!this.isEnabled || this.isModalOpen) return;
-        if (e.target.closest('.project-modal')) return;
-        this.touchStartY = e.touches[0].clientY;
-        this.touchLastY = this.touchStartY;
-        this.velocity = 0;
-      }
-
-      onTouchMove(e) {
-        if (!this.isEnabled || this.isModalOpen) return;
-        if (e.target.closest('.project-modal')) return;
-        const currentY = e.touches[0].clientY;
-        const delta = (this.touchLastY - currentY) * this.touchMultiplier;
-        this.velocity = delta;
-        this.touchLastY = currentY;
-        this.targetY = Math.max(0, Math.min(this.getMaxScroll(), this.targetY + delta));
-      }
-
-      onTouchEnd() {
-        if (!this.isEnabled || this.isModalOpen) return;
-        // Natural touch momentum release
-        this.targetY = Math.max(0, Math.min(this.getMaxScroll(), this.targetY + this.velocity * 4));
-      }
-
-      onResize() {
-        this.maxScroll = this.getMaxScroll();
-        this.targetY = Math.min(this.targetY, this.maxScroll);
-      }
-
-      scrollTo(offset) {
-        this.targetY = Math.max(0, Math.min(this.getMaxScroll(), offset));
-      }
-
+    const kimiScroller = {
+      isEnabled: false,
       toggleModal(open) {
-        this.isModalOpen = open;
         if (open) {
-          this.savedY = this.current;
+          document.body.style.overflow = 'hidden';
         } else {
-          this.targetY = window.pageYOffset || this.savedY;
-          this.current = this.targetY;
+          document.body.style.overflow = '';
         }
+      },
+      scrollTo(offset) {
+        window.scrollTo({
+          top: Math.max(0, offset),
+          behavior: 'smooth'
+        });
       }
+    };
 
-      update() {
-        if (this.isEnabled && !this.isModalOpen) {
-          this.maxScroll = this.getMaxScroll();
-          const diff = this.targetY - this.current;
-          
-          if (Math.abs(diff) > 0.4) {
-            this.current += diff * this.lerp;
-            window.scrollTo(0, this.current);
-          } else {
-            this.current = this.targetY;
-          }
-        }
-        this.rafId = requestAnimationFrame(this.update);
-      }
-    }
-
-    // Instantiate global smooth scroll engine
-    const kimiScroller = new KimiSmoothScroll();
-
-    // Buttery smooth anchor navigation (native GPU on mobile, lerp on desktop)
+    // Buttery smooth anchor navigation (120Hz native hardware acceleration)
     function smoothScrollTo(elementId) {
       const el = document.getElementById(elementId);
       if (el) {
@@ -3726,16 +3661,59 @@
         const elementPosition = el.getBoundingClientRect().top;
         const offsetPosition = elementPosition + (window.pageYOffset || document.documentElement.scrollTop) - headerOffset;
 
-        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
-        if (isTouch || !kimiScroller || !kimiScroller.isEnabled) {
-          window.scrollTo({
-            top: Math.max(0, offsetPosition),
-            behavior: "smooth"
-          });
-        } else {
-          kimiScroller.scrollTo(offsetPosition);
-        }
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: "smooth"
+        });
       }
+    }
+
+    /* =======================================================
+       CLICK TO MEET BADGE: INTERACTIVE SCROLL TRACKER & ROTATION
+       ======================================================= */
+    function initClickBadgeScroll() {
+      const badge = document.getElementById('clickBadge');
+      const heroContainer = document.querySelector('.hero-media-container');
+      const aboutSection = document.getElementById('about');
+      if (!badge) return;
+
+      let isTicking = false;
+
+      function updateBadge() {
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        
+        // Calculate transition threshold: when hero poster scrolls out of view
+        const heroBottom = heroContainer ? (heroContainer.offsetTop + heroContainer.offsetHeight - 140) : 420;
+        const shouldFloat = scrollY > heroBottom;
+
+        badge.classList.toggle('floating-badge', shouldFloat);
+
+        // Check if currently inside About section to gently dim
+        let inAbout = false;
+        if (aboutSection) {
+          const rect = aboutSection.getBoundingClientRect();
+          if (rect.top <= window.innerHeight * 0.6 && rect.bottom >= window.innerHeight * 0.15) {
+            inAbout = true;
+          }
+        }
+        badge.classList.toggle('in-about', inAbout);
+
+        // Dynamic scroll rotation physics
+        const rot = (scrollY * 0.25) % 360;
+        badge.style.setProperty('--scroll-rot', `${rot.toFixed(1)}deg`);
+
+        isTicking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!isTicking) {
+          requestAnimationFrame(updateBadge);
+          isTicking = true;
+        }
+      }, { passive: true });
+
+      // Initial execution
+      updateBadge();
     }
 
     // Progressive image loaded callback
@@ -3908,6 +3886,7 @@
     // Initialize DOM
     window.addEventListener('DOMContentLoaded', () => {
       renderProjects();
+      initClickBadgeScroll();
 
       // Mobile Menu listeners
       const menuBtn = document.getElementById('mobileMenuBtn');
