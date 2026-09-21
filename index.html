@@ -56,7 +56,8 @@
       width: 100%;
       height: auto !important;
       min-height: 100% !important;
-      scroll-behavior: auto !important;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
@@ -70,6 +71,8 @@
       min-height: 100vh !important;
       width: 100%;
       position: relative;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
     }
 
     ::selection {
@@ -96,6 +99,8 @@
       z-index: 9999;
       border-bottom: 1px solid var(--border-subtle);
       transition: all 0.3s ease;
+      transform: translateZ(0);
+      -webkit-transform: translateZ(0);
     }
 
     .header-left {
@@ -261,6 +266,8 @@
       transition: right 0.35s cubic-bezier(0.16, 1, 0.3, 1);
       box-shadow: -12px 0 40px rgba(0, 0, 0, 0.9);
       overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      overscroll-behavior: contain;
     }
 
     .mobile-nav-drawer.open {
@@ -1463,6 +1470,7 @@
         overflow-x: auto;
         flex-wrap: nowrap;
         -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
         scrollbar-width: none;
         padding-bottom: 8px;
         margin-bottom: -4px;
@@ -1884,9 +1892,6 @@
     /* =======================================================
        KIMI K3 BUTTERY SMOOTH ENGINE & GPU HARDWARE ACCELERATION
        ======================================================= */
-    html {
-      scroll-behavior: auto !important; /* Managed by SmoothScroll RAF engine for buttery momentum */
-    }
 
     /* GPU Paint Containment - skips layout/paint for offscreen cards */
     .featured-card,
@@ -3380,18 +3385,6 @@
       }
     }
 
-    function smoothScrollTo(elementId) {
-      const el = document.getElementById(elementId);
-      if (el) {
-        const headerOffset = 76;
-        const elementPosition = el.getBoundingClientRect().top;
-        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-        window.scrollTo({
-          top: offsetPosition,
-          behavior: "smooth"
-        });
-      }
-    }
 
     
     /* =======================================================
@@ -3425,17 +3418,24 @@
       }
 
       init() {
+        // Detect touch devices (phones, tablets, iPads)
+        this.isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+
+        // On mobile/touch devices, NEVER hijack touch scrolling!
+        // Native OS hardware compositor provides buttery 120Hz/60Hz acceleration with zero touch lag.
+        if (this.isTouch) {
+          this.isEnabled = false;
+          return;
+        }
+
         this.maxScroll = this.getMaxScroll();
         this.current = window.pageYOffset || 0;
         this.targetY = this.current;
 
         window.addEventListener('wheel', this.onWheel, { passive: false });
-        window.addEventListener('touchstart', this.onTouchStart, { passive: true });
-        window.addEventListener('touchmove', this.onTouchMove, { passive: false });
-        window.addEventListener('touchend', this.onTouchEnd, { passive: true });
         window.addEventListener('resize', this.onResize, { passive: true });
 
-        // Start 60fps/120fps RAF loop
+        // Start 60fps/120fps RAF loop on desktop
         this.rafId = requestAnimationFrame(this.update);
       }
 
@@ -3519,14 +3519,23 @@
     // Instantiate global smooth scroll engine
     const kimiScroller = new KimiSmoothScroll();
 
-    // Smooth anchor navigation override
+    // Buttery smooth anchor navigation (native GPU on mobile, lerp on desktop)
     function smoothScrollTo(elementId) {
       const el = document.getElementById(elementId);
       if (el) {
-        const headerOffset = 76;
+        const headerOffset = window.innerWidth <= 768 ? 68 : 80;
         const elementPosition = el.getBoundingClientRect().top;
         const offsetPosition = elementPosition + (window.pageYOffset || document.documentElement.scrollTop) - headerOffset;
-        kimiScroller.scrollTo(offsetPosition);
+
+        const isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches);
+        if (isTouch || !kimiScroller || !kimiScroller.isEnabled) {
+          window.scrollTo({
+            top: Math.max(0, offsetPosition),
+            behavior: "smooth"
+          });
+        } else {
+          kimiScroller.scrollTo(offsetPosition);
+        }
       }
     }
 
