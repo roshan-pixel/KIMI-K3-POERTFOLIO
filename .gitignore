@@ -15,6 +15,5 @@ snapshot_live.html
 *.ps1
 snippets/
 
-# Heavy media assets are loaded via fast CloudFront CDN
-assets/*
-!assets/poster.jpg
+# Heavy media assets
+!assets/
