@@ -3,6 +3,7 @@
 A high-performance, buttery-smooth portfolio clone for **Himanshi Parihar** (Lead Brand & Graphic Designer at Heavy Branding Studio). Featuring 26 comprehensive client case studies, over 600 authentic packaging and brand identity assets, and cutting-edge creative front-end engineering powered by **Kimi K3**, with a dedicated **[Graphify](https://github.com/Graphify-Labs/graphify)** knowledge graph.
 
 🌐 **Target**: Heavy Branding Studio (`https://heavy.mx/`)  
+🚀 **Live Production**: [https://kimi-k3-portfolio.onrender.com](https://kimi-k3-portfolio.onrender.com)  
 📧 **Contact**: [himanshiparihar.design@gmail.com](mailto:himanshiparihar.design@gmail.com)
 
 ---
@@ -11,16 +12,16 @@ A high-performance, buttery-smooth portfolio clone for **Himanshi Parihar** (Lea
 
 | View Type | Live Hosted Link | Description |
 |---|---|---|
-| 🧠 **Interactive 3D Physics Graph** | **[`graphify-out/graph.html`](./graphify-out/graph.html)** | Real-time force-directed physics graph with draggable nodes & community filters |
-| 📊 **Mermaid Call-Flow Architecture** | **[`graphify-out/heavy-clone-callflow.html`](./graphify-out/heavy-clone-callflow.html)** | Interactive visual callflow diagram with zoom & pan controls |
-| 🌲 **Hierarchical D3 Tree** | **[`graphify-out/GRAPH_TREE.html`](./graphify-out/GRAPH_TREE.html)** | Collapsible directory & symbol dependency hierarchy |
+| 🧠 **Interactive 3D Physics Graph** | **[kimi-k3-portfolio.onrender.com/graph.html](https://kimi-k3-portfolio.onrender.com/graph.html)** | Real-time force-directed physics graph with draggable nodes & community filters |
+| 📊 **Mermaid Call-Flow Architecture** | **[kimi-k3-portfolio.onrender.com/callflow.html](https://kimi-k3-portfolio.onrender.com/callflow.html)** | Interactive visual callflow diagram with zoom & pan controls |
+| 🌲 **Hierarchical D3 Tree** | **[kimi-k3-portfolio.onrender.com/tree.html](https://kimi-k3-portfolio.onrender.com/tree.html)** | Collapsible directory & symbol dependency hierarchy |
 | 📄 **System Architecture Report** | **[`PORTFOLIO_SYSTEM_ARCHITECTURE.md`](./PORTFOLIO_SYSTEM_ARCHITECTURE.md)** | Deep technical report with sequence diagrams & subsystem specs |
 
 ### 🔍 Graphify Cluster View (Rendered on GitHub)
 
-[![Graphify Knowledge Graph Clusters](./graphify-out/graph.png)](./graphify-out/graph.html)
+[![Graphify Knowledge Graph Clusters](./graphify-out/graph.png)](https://kimi-k3-portfolio.onrender.com/graph.html)
 
-> 💡 **Interactive Mode**: Open [`graphify-out/graph.html`](./graphify-out/graph.html) in any browser (or click the graph diagram above) to explore the live interactive physics simulation in full screen with real-time collision detection, community filtering, and node inspector!
+> 💡 **Interactive Mode**: Click the graph diagram above or visit **[kimi-k3-portfolio.onrender.com/graph.html](https://kimi-k3-portfolio.onrender.com/graph.html)** to explore the live interactive physics simulation in full screen with real-time collision detection, community filtering, and node inspector!
 
 ---
 
@@ -66,9 +67,9 @@ A high-performance, buttery-smooth portfolio clone for **Himanshi Parihar** (Lea
 This portfolio includes a deep technical architecture blueprint and a persistent **[Graphify](https://github.com/Graphify-Labs/graphify)** knowledge graph:
 
 - **[`PORTFOLIO_SYSTEM_ARCHITECTURE.md`](./PORTFOLIO_SYSTEM_ARCHITECTURE.md)**: Comprehensive architectural breakdown with Mermaid sequence diagrams.
-- **[`graphify-out/graph.html`](./graphify-out/graph.html)**: Interactive 2D/3D force-directed physics graph.
-- **[`graphify-out/GRAPH_TREE.html`](./graphify-out/GRAPH_TREE.html)**: D3 v7 collapsible hierarchy tree.
-- **[`graphify-out/heavy-clone-callflow.html`](./graphify-out/heavy-clone-callflow.html)**: Interactive Mermaid callflow diagram with zoom & pan.
+- **[Interactive 2D/3D Force-Directed Physics Graph](https://kimi-k3-portfolio.onrender.com/graph.html)** ([`graphify-out/graph.html`](./graphify-out/graph.html))
+- **[Hierarchical D3 v7 Tree Hierarchy](https://kimi-k3-portfolio.onrender.com/tree.html)** ([`graphify-out/GRAPH_TREE.html`](./graphify-out/GRAPH_TREE.html))
+- **[Interactive Mermaid Callflow Diagram](https://kimi-k3-portfolio.onrender.com/callflow.html)** ([`graphify-out/heavy-clone-callflow.html`](./graphify-out/heavy-clone-callflow.html))
 - **[`graphify-out/GRAPH_REPORT.md`](./graphify-out/GRAPH_REPORT.md)**: Structural audit and community cohesion report.
 
 ### Clustered Functional Communities (60 Nodes · 71 Edges)
